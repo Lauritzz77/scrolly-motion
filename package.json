@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "ghpages": "npm run build && gh-pages -d dist",
     "publish-scrolly": "cd src/plugins/scrolly-motion && npm publish --access public"
   },
   "dependencies": {

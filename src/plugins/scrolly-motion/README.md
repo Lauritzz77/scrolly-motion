@@ -2,7 +2,12 @@
 
 [![npm version](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion.svg)](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion)
 
-Advanced scroll animation system with breakpoint support, timeline presets, stagger animations, and physics damping.
+Performant and advanced scroll animation system with breakpoint support, timeline presets, stagger animations, and physics damping.
+
+## **Current Size Estimate**
+
+- **ES Module**: ~37 KB (minified) / ~9 KB (gzipped)
+- **UMD Module**: ~27 KB (minified) / ~8 KB (gzipped)
 
 ## Installation
 

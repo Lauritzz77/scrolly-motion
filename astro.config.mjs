@@ -1,11 +1,11 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import netlify from "@astrojs/netlify";
 
 export default defineConfig({
-  adapter: netlify(),
-  output: "server",
+  site: 'https://lauritzz77.github.io',
+  base: '/scrolly-motion',
+  output: "static",
   prefetch: true,
   devToolbar: {
     enabled: false,
