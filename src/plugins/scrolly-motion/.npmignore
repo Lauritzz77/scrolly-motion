@@ -1,0 +1,16 @@
+# Build artifacts
+vite.config.ts
+tsconfig.json
+*.test.ts
+
+# Documentation
+README.md
+SPECIFICATIONS.md
+TODO.md
+PLUGIN_DEVELOPMENT_LLM.md
+
+# Node modules
+node_modules
+
+# Other
+.DS_Store

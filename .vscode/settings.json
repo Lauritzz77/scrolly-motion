@@ -1,0 +1,20 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true
+  },
+  "editor.formatOnSave": true,
+  "editor.wordWrapColumn": 300,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "scss.lint.unknownAtRules": "ignore",
+  "prettier.documentSelectors": ["**/*.astro"],
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "html.format.wrapAttributes": "preserve",
+  "deno.enable": true,
+  "deno.enablePaths": ["netlify/edge-functions"],
+  "deno.importMap": ".netlify/edge-functions-import-map.json",
+  "deno.path": "/Users/laurasmussen/Library/Preferences/netlify/deno-cli/deno"
+}
