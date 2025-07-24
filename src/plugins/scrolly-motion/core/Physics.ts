@@ -22,6 +22,10 @@ export class Physics {
    * Start the physics damping loop
    */
   startDampingLoop(elements: ScrollElement[]): void {
+    if (this.dampingAnimationId !== null) {
+      return; // Loop is already running
+    }
+
     let lastTime = performance.now();
 
     const physicsLoop = (currentTime: number) => {
@@ -142,7 +146,8 @@ export class Physics {
     this.scrollStopTimer = window.setTimeout(() => {
       this.isScrolling = false;
       // Ensure the physics loop continues after scroll stops
-      if (this.dampingAnimationId === null) {
+      const hasDampingElements = elements.some((el) => el._damping > 0);
+      if (this.dampingAnimationId === null && hasDampingElements) {
         this.startDampingLoop(elements);
       }
     }, PHYSICS_CONFIG.scrollStopDelay);

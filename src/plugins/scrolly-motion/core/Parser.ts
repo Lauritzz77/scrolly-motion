@@ -11,6 +11,7 @@ import type {
 } from "../types/index.js";
 import { AnimationParser } from "./parsers/AnimationParser.js";
 import { StaggerParser } from "./parsers/StaggerParser.js";
+import type { PluginManager } from "./PluginManager.js";
 
 export class Parser {
   private animationParser: AnimationParser;
@@ -18,10 +19,15 @@ export class Parser {
 
   constructor(
     timelinePresets: Map<string, TimelineStep[]>,
-    mediaQueries: Map<string, MediaQueryList>
+    mediaQueries: Map<string, MediaQueryList>,
+    pluginManager: PluginManager
   ) {
-    this.animationParser = new AnimationParser(timelinePresets, mediaQueries);
-    this.staggerParser = new StaggerParser();
+    this.animationParser = new AnimationParser(
+      timelinePresets,
+      mediaQueries,
+      pluginManager
+    );
+    this.staggerParser = new StaggerParser(pluginManager);
   }
 
   parseAnimation(animationStr: string): AnimationConfig | null {

@@ -3,12 +3,33 @@
  * Handles parsing of individual animation values.
  */
 
+import type { PluginManager } from "../PluginManager.js";
+
 export class ValueParser {
+  private pluginManager: PluginManager;
+
+  constructor(pluginManager: PluginManager) {
+    this.pluginManager = pluginManager;
+  }
+
   parse(property: string, value: string): any {
-    if (value.startsWith("[") && value.endsWith("]")) {
-      return this.parseArbitraryValue(property, value.slice(1, -1));
+    try {
+      const pluginValue = this.pluginManager.parse(property, value);
+      if (pluginValue !== undefined) {
+        return pluginValue;
+      }
+
+      if (value.startsWith("[") && value.endsWith("]")) {
+        return this.parseArbitraryValue(property, value.slice(1, -1));
+      }
+      return this.parseTailwindValue(property, value);
+    } catch (e) {
+      console.error(
+        `ScrollyMotion: Failed to parse value for property "${property}": "${value}"`,
+        e
+      );
+      return value; // Return original value as a fallback
     }
-    return this.parseTailwindValue(property, value);
   }
 
   private parseArbitraryValue(property: string, arbitraryValue: string): any {

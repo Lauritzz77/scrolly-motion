@@ -291,6 +291,67 @@ This allows you to create custom, scroll-driven animations inside your Web Compo
 - Safari 12.1+
 - Edge 79
 
+## Event System
+
+ScrollyMotion fires events at key lifecycle moments, allowing you to hook into the animation process.
+
+- `elementEnter`: Fired when an element enters the viewport.
+- `elementLeave`: Fired when an element leaves the viewport.
+
+**Usage:**
+
+```typescript
+const scrollyMotion = new ScrollyMotion();
+
+scrollyMotion.on("elementEnter", (element) => {
+  console.log("Element entered:", element);
+});
+
+scrollyMotion.on("elementLeave", (element) => {
+  console.log("Element left:", element);
+});
 ```
 
+## Plugin System
+
+ScrollyMotion has a plugin system that allows you to extend the library with custom animation properties and behaviors.
+
+**Example Plugin: Custom Bounce Effect**
+
+This example demonstrates how to create a plugin that adds a custom `bounceY` animation property.
+
+**1. Create the Plugin**
+
+```typescript
+const bouncePlugin = {
+  name: "bounceEffects",
+  parse: (property, value) => {
+    if (property === "bounceY") {
+      // Convert bounce intensity to actual translateY values
+      const intensity = parseFloat(value) || 10;
+      return intensity; // This will be used by the animation system
+    }
+    return undefined;
+  },
+};
+```
+
+**2. Register the Plugin**
+
+```typescript
+// Initialize ScrollyMotion
+const scrollyMotion = new ScrollyMotion();
+
+// Register the custom plugin
+scrollyMotion.registerPlugin(bouncePlugin);
+```
+
+**3. Use the Custom Property in HTML**
+
+Now you can use the `bounceY` property in your `data-animation` attributes.
+
+```html
+<div data-animation="from:bounceY-20|opacity-0 to:bounceY-0|opacity-100">
+  This element will bounce in from 20px above.
+</div>
 ```

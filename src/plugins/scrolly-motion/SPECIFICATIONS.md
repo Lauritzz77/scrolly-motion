@@ -6,10 +6,13 @@
 
 ScrollyMotion is a high-performance scroll animation library with a modular architecture designed for extensibility and maintainability. The core components are:
 
-- **`ScrollyMotion`**: The main class that orchestrates all functionality, including element discovery, event handling, and animation lifecycle management.
-- **`Parser`**: Responsible for parsing `data-animation` and `data-scroll` attributes, including animations, timelines, breakpoints, and stagger configurations.
-- **`Animation`**: Handles the calculation and application of animation values, including simple from/to animations, timeline-based animations, and stagger animations.
-- **`Physics`**: Implements physics-based animations with damping and friction for smooth, natural-feeling scroll effects.
+- **`ScrollyMotion`**: The main class that orchestrates all functionality.
+- **`ElementManager`**: Manages the lifecycle of scroll elements, including discovery, initialization, and state management.
+- **`EventManager`**: A simple event emitter for handling custom events.
+- **`PluginManager`**: Manages custom animation properties and behaviors.
+- **`Parser`**: Responsible for parsing `data-animation` and `data-scroll` attributes.
+- **`Animation`**: Handles the calculation and application of animation values.
+- **`Physics`**: Implements physics-based animations with damping and friction.
 - **`ThemeManager`**: Manages theme changes based on the currently visible elements.
 
 ### 1.2. Core Concepts
@@ -53,7 +56,9 @@ new ScrollyMotion(config: ScrollAnimatorConfig = {}): ScrollyMotion
 
 - **`init(): void`**: Initializes the library, discovers elements, and sets up event listeners.
 - **`destroy(): void`**: Cleans up all event listeners, timers, and references to prevent memory leaks.
-- **`getMetrics(): ScrollMasterMetrics`**: Returns performance metrics, including FPS, active elements, and memory usage.
+- **`getMetrics(): ScrollyMotionMetrics`**: Returns performance metrics, including FPS, active elements, and memory usage.
+- **`on(eventName: string, handler: (...args: any[]) => void): void`**: Subscribes to an event.
+- **`registerPlugin(plugin: ScrollyMotionPlugin): void`**: Registers a new plugin.
 
 ### 2.2. `data-scroll` Attribute
 
@@ -191,7 +196,33 @@ interface StaggerConfig {
 - **Parsing Errors**: The `Parser` will gracefully handle parsing errors and log warnings to the console.
 - **Runtime Errors**: The library includes `try-catch` blocks around critical operations to prevent runtime errors from breaking the application.
 
-## 10. Browser Support
+## 10. Event System
+
+The `EventManager` class provides a simple event emitter for handling custom events.
+
+- **`on(eventName: string, handler: EventHandler)`**: Subscribes to an event.
+- **`off(eventName: string, handler: EventHandler)`**: Unsubscribes from an event.
+- **`emit(eventName: string, ...args: any[])`**: Emits an event.
+
+## 11. Plugin System
+
+The `PluginManager` class allows developers to extend the library with custom animation properties and behaviors.
+
+### `ScrollyMotionPlugin` Interface
+
+```typescript
+export interface ScrollyMotionPlugin {
+  name: string;
+  parse: (property: string, value: string) => any;
+}
+```
+
+### Methods
+
+- **`register(plugin: ScrollyMotionPlugin): void`**: Registers a new plugin.
+- **`getPlugin(name: string): ScrollyMotionPlugin | undefined`**: Retrieves a registered plugin.
+
+## 12. Browser Support
 
 - **Chrome**: 51+
 - **Firefox**: 55+

@@ -9,116 +9,133 @@ import type {
 } from "../../types/index.js";
 import { TimelineParser } from "./TimelineParser";
 import { ValueParser } from "./ValueParser";
+import type { PluginManager } from "../PluginManager.js";
 
 export class StaggerParser {
   private timelineParser: TimelineParser;
   private valueParser: ValueParser;
 
-  constructor() {
-    this.valueParser = new ValueParser();
+  constructor(pluginManager: PluginManager) {
+    this.valueParser = new ValueParser(pluginManager);
     this.timelineParser = new TimelineParser(this.valueParser);
   }
 
   parse(animationStr: string): StaggerConfig | null {
     if (!animationStr) return null;
 
-    const transitionDurationMatch = animationStr.match(
-      /transition-duration-(\d+)/
-    );
-    const transitionEasingMatch = animationStr.match(
-      /transition-easing-([a-zA-Z-]+)/
-    );
+    try {
+      const transitionDurationMatch = animationStr.match(
+        /transition-duration-(\d+)/
+      );
+      const transitionEasingMatch = animationStr.match(
+        /transition-easing-([a-zA-Z-]+)/
+      );
 
-    const selectorMatch = animationStr.match(/^\[([^\]]+)\]:/);
-    if (!selectorMatch) return null;
+      const selectorMatch = animationStr.match(/^\[([^\]]+)\]:/);
+      if (!selectorMatch) return null;
 
-    let selector = selectorMatch[1];
-    if (selector.startsWith("&")) {
-      selector = selector.substring(1);
-    }
-
-    const configStr = animationStr.substring(selectorMatch[0].length);
-
-    const config: StaggerConfig = {
-      selector,
-      from: {},
-      to: {},
-      staggerDelay: 0.1,
-      breakpoint: "default",
-      transitionDuration: transitionDurationMatch
-        ? parseInt(transitionDurationMatch[1], 10)
-        : undefined,
-      transitionEasing: transitionEasingMatch
-        ? transitionEasingMatch[1]
-        : undefined,
-    };
-
-    const isTimeline =
-      (configStr.includes(";") &&
-        (configStr.includes("from:") ||
-          configStr.includes("via-") ||
-          configStr.includes("to:"))) ||
-      configStr.includes("via-");
-
-    if (isTimeline) {
-      this.processSection("timeline", configStr, config);
-    } else if (configStr.startsWith("timeline:")) {
-      const timelineStr = configStr.substring(9);
-      this.processSection("timeline", timelineStr, config);
-    } else {
-      const parts = configStr.split(":");
-      let currentSection = "";
-      let currentValue = "";
-
-      parts.forEach((part) => {
-        if (part === "from" || part === "to") {
-          if (currentSection && currentValue) {
-            this.processSection(currentSection, currentValue, config);
-          }
-          currentSection = part;
-          currentValue = "";
-        } else {
-          if (currentValue) currentValue += ":";
-          currentValue += part;
-        }
-      });
-
-      if (currentSection && currentValue) {
-        this.processSection(currentSection, currentValue, config);
+      let selector = selectorMatch[1];
+      if (selector.startsWith("&")) {
+        selector = selector.substring(1);
       }
-    }
 
-    return config;
+      const configStr = animationStr.substring(selectorMatch[0].length);
+
+      const config: StaggerConfig = {
+        selector,
+        from: {},
+        to: {},
+        staggerDelay: 0.1,
+        breakpoint: "default",
+        transitionDuration: transitionDurationMatch
+          ? parseInt(transitionDurationMatch[1], 10)
+          : undefined,
+        transitionEasing: transitionEasingMatch
+          ? transitionEasingMatch[1]
+          : undefined,
+      };
+
+      const isTimeline =
+        (configStr.includes(";") &&
+          (configStr.includes("from:") ||
+            configStr.includes("via-") ||
+            configStr.includes("to:"))) ||
+        configStr.includes("via-");
+
+      if (isTimeline) {
+        this.processSection("timeline", configStr, config);
+      } else if (configStr.startsWith("timeline:")) {
+        const timelineStr = configStr.substring(9);
+        this.processSection("timeline", timelineStr, config);
+      } else {
+        const parts = configStr.split(":");
+        let currentSection = "";
+        let currentValue = "";
+
+        parts.forEach((part) => {
+          if (part === "from" || part === "to") {
+            if (currentSection && currentValue) {
+              this.processSection(currentSection, currentValue, config);
+            }
+            currentSection = part;
+            currentValue = "";
+          } else {
+            if (currentValue) currentValue += ":";
+            currentValue += part;
+          }
+        });
+
+        if (currentSection && currentValue) {
+          this.processSection(currentSection, currentValue, config);
+        }
+      }
+
+      return config;
+    } catch (e) {
+      console.error(
+        `ScrollyMotion: Failed to parse stagger animation: "${animationStr}"`,
+        e
+      );
+      return null;
+    }
   }
 
   parseMultiBreakpoint(animationStr: string): MultiBreakpointStaggerConfig {
-    const multiConfig: MultiBreakpointStaggerConfig = {};
-    const breakpointRegex = /(@[^:]+:)/g;
-    const parts = animationStr.split(breakpointRegex).filter(Boolean);
+    try {
+      const multiConfig: MultiBreakpointStaggerConfig = {};
+      const breakpointRegex = /(@[^:]+:)/g;
+      const parts = animationStr.split(breakpointRegex).filter(Boolean);
 
-    let currentBreakpoint = "default";
+      let currentBreakpoint = "default";
 
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i].trim();
-      if (part.startsWith("@") && part.endsWith(":")) {
-        currentBreakpoint = part.slice(1, -1);
-        const configStr = parts[i + 1]?.trim();
-        if (configStr) {
-          const staggerConfig = this.parse(configStr);
-          if (staggerConfig) {
-            multiConfig[currentBreakpoint] = staggerConfig;
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i].trim();
+        if (part.startsWith("@") && part.endsWith(":")) {
+          currentBreakpoint = part.slice(1, -1);
+          const configStr = parts[i + 1]?.trim();
+          if (configStr) {
+            const staggerConfig = this.parse(configStr);
+            if (staggerConfig) {
+              multiConfig[currentBreakpoint] = staggerConfig;
+            }
+            i++;
           }
-          i++;
-        }
-      } else {
-        const staggerConfig = this.parse(part);
-        if (staggerConfig) {
-          multiConfig["default"] = staggerConfig;
+        } else {
+          const staggerConfig = this.parse(part);
+          if (staggerConfig) {
+            multiConfig["default"] = staggerConfig;
+          }
         }
       }
-    }
 
-    return multiConfig;
+      return multiConfig;
+    } catch (e) {
+      console.error(
+        `ScrollyMotion: Failed to parse multi-breakpoint stagger animation: "${animationStr}"`,
+        e
+      );
+      return {};
+    }
   }
 
   private processSection(

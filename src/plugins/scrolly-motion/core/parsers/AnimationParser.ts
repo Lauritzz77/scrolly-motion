@@ -11,6 +11,7 @@ import type {
 import { BREAKPOINT_ORDER } from "../../utils/constants.js";
 import { TimelineParser } from "./TimelineParser";
 import { ValueParser } from "./ValueParser";
+import type { PluginManager } from "../PluginManager.js";
 
 export class AnimationParser {
   private timelinePresets: Map<string, TimelineStep[]>;
@@ -20,11 +21,12 @@ export class AnimationParser {
 
   constructor(
     timelinePresets: Map<string, TimelineStep[]>,
-    mediaQueries: Map<string, MediaQueryList>
+    mediaQueries: Map<string, MediaQueryList>,
+    pluginManager: PluginManager
   ) {
     this.timelinePresets = timelinePresets;
     this.mediaQueries = mediaQueries;
-    this.valueParser = new ValueParser();
+    this.valueParser = new ValueParser(pluginManager);
     this.timelineParser = new TimelineParser(this.valueParser);
   }
 
@@ -122,55 +124,69 @@ export class AnimationParser {
   }
 
   private parsePart(part: string, config: AnimationConfig): void {
-    const sections = part.split(/\s+(?=(?:from|to|timeline|preset):)/);
+    try {
+      const sections = part.split(/\s+(?=(?:from|to|timeline|preset):)/);
 
-    sections.forEach((section) => {
-      const trimmedSection = section.trim();
+      sections.forEach((section) => {
+        const trimmedSection = section.trim();
 
-      if (trimmedSection.startsWith("from:")) {
-        const fromStr = trimmedSection.substring(5);
-        this.parseProps(fromStr, config.from);
-      } else if (trimmedSection.startsWith("to:")) {
-        const toStr = trimmedSection.substring(3);
-        this.parseProps(toStr, config.to);
-      } else if (trimmedSection.startsWith("timeline:")) {
-        const timelineStr = trimmedSection.substring(9);
-        config.timeline = this.timelineParser.parse(timelineStr);
-      } else if (trimmedSection.startsWith("preset:")) {
-        const presetName = trimmedSection.substring(7).trim();
-        const presetSteps = this.timelinePresets.get(presetName);
-        if (presetSteps) {
-          config.timeline = presetSteps;
-        } else {
-          console.warn(`Unknown preset: ${presetName}`);
+        if (trimmedSection.startsWith("from:")) {
+          const fromStr = trimmedSection.substring(5);
+          this.parseProps(fromStr, config.from);
+        } else if (trimmedSection.startsWith("to:")) {
+          const toStr = trimmedSection.substring(3);
+          this.parseProps(toStr, config.to);
+        } else if (trimmedSection.startsWith("timeline:")) {
+          const timelineStr = trimmedSection.substring(9);
+          config.timeline = this.timelineParser.parse(timelineStr);
+        } else if (trimmedSection.startsWith("preset:")) {
+          const presetName = trimmedSection.substring(7).trim();
+          const presetSteps = this.timelinePresets.get(presetName);
+          if (presetSteps) {
+            config.timeline = presetSteps;
+          } else {
+            console.warn(`ScrollyMotion: Unknown preset: ${presetName}`);
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      console.error(
+        `ScrollyMotion: Failed to parse animation part: "${part}"`,
+        e
+      );
+    }
   }
 
   private parseProps(propsStr: string, target: Record<string, any>): void {
-    const props = propsStr.split("|");
-    props.forEach((prop) => {
-      if (prop.startsWith("letter-spacing")) {
-        const value = prop.substring(15);
-        target["letter-spacing"] = this.valueParser.parse(
-          "letter-spacing",
-          value
-        );
-        return;
-      }
-      const dashIndex = prop.indexOf("-");
-      if (dashIndex > 0) {
-        const key = prop.substring(0, dashIndex);
-        let value = prop.substring(dashIndex + 1);
-        if (value.startsWith("-")) {
-          value = value;
+    try {
+      const props = propsStr.split("|");
+      props.forEach((prop) => {
+        if (prop.startsWith("letter-spacing")) {
+          const value = prop.substring(15);
+          target["letter-spacing"] = this.valueParser.parse(
+            "letter-spacing",
+            value
+          );
+          return;
         }
-        if (key && value !== undefined) {
-          target[key] = this.valueParser.parse(key, value);
+        const dashIndex = prop.indexOf("-");
+        if (dashIndex > 0) {
+          const key = prop.substring(0, dashIndex);
+          let value = prop.substring(dashIndex + 1);
+          if (value.startsWith("-")) {
+            value = value;
+          }
+          if (key && value !== undefined) {
+            target[key] = this.valueParser.parse(key, value);
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      console.error(
+        `ScrollyMotion: Failed to parse properties: "${propsStr}"`,
+        e
+      );
+    }
   }
 
   private getActiveConfig(
