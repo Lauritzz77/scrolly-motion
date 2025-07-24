@@ -1,0 +1,52 @@
+@layer utilities {
+  .text-display-1 {
+    font-size: clamp(30px, calc(1.4286px + 8.9286vw), 130px);
+    line-height: clamp(38px, calc(9.4286px + 8.9286vw), 138px);
+    font-weight: 900;
+  }
+  .text-headline-1 {
+    font-size: clamp(48px, calc(25.1429px + 7.1429vw), 128px);
+    line-height: clamp(56px, calc(35.4286px + 6.4286vw), 128px);
+    font-weight: 400;
+  }
+  .text-headline-2 {
+    font-size: clamp(34px, calc(14.0000px + 6.2500vw), 104px);
+    line-height: clamp(42px, calc(22.0000px + 6.2500vw), 112px);
+    font-weight: 400;
+  }
+  .text-headline-3 {
+    font-size: clamp(32px, calc(13.7143px + 5.7143vw), 96px);
+    line-height: clamp(40px, calc(24.0000px + 5.0000vw), 96px);
+    font-weight: 400;
+  }
+  .text-headline-4 {
+    font-size: clamp(28px, calc(15.4286px + 3.9286vw), 72px);
+    line-height: clamp(36px, calc(25.7143px + 3.2143vw), 72px);
+    font-weight: 400;
+  }
+  .text-headline-5 {
+    font-size: clamp(26px, calc(18.0000px + 2.5000vw), 54px);
+    line-height: clamp(34px, calc(28.2857px + 1.7857vw), 54px);
+    font-weight: 400;
+  }
+  .text-body-lg {
+    font-size: clamp(20px, calc(18.8571px + 0.3571vw), 24px);
+    line-height: clamp(28px, calc(26.8571px + 0.3571vw), 32px);
+    font-weight: 400;
+  }
+  .text-body-base {
+    font-size: clamp(16px, calc(15.4286px + 0.1786vw), 18px);
+    line-height: clamp(24px, calc(23.4286px + 0.1786vw), 26px);
+    font-weight: 400;
+  }
+  .text-body-sm {
+    font-size: clamp(14px, calc(13.4286px + 0.1786vw), 16px);
+    line-height: clamp(22px, calc(21.4286px + 0.1786vw), 24px);
+    font-weight: 400;
+  }
+  .text-body-xs {
+    font-size: clamp(12px, calc(11.4286px + 0.1786vw), 14px);
+    line-height: clamp(20px, calc(19.4286px + 0.1786vw), 22px);
+    font-weight: 400;
+  }
+}

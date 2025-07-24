@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@import "./utilities";
+@import "./breakpoints";
+@import "./colors";
+@import "./components";
+
+@plugin "@iconify/tailwind4";
+@plugin "tailwind-clamp" {
+  minsize: 320px;
+  maxsize: 1920px;
+}
+@plugin "tailwindcss-motion";
+
+@custom-variant theme-light (&:where([data-theme="light"] *));
+@custom-variant theme-dark (&:where([data-theme="dark"] *));
+@custom-variant theme-blue (&:where([data-theme="blue"] *));
+@custom-variant theme-green (&:where([data-theme="green"] *));
+@custom-variant theme-orange (&:where([data-theme="orange"] *));
+
+@theme {
+  --animate-fade-in-up: fade-in-up 1s ease-in-out infinite;
+  @keyframes fade-in-up {
+    0%,
+    100% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@theme {
+  --animate-fade-in-down: fade-in-down 1s ease-in-out infinite;
+  @keyframes fade-in-down {
+    0%,
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

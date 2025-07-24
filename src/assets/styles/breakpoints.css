@@ -1,0 +1,18 @@
+@theme {
+  --breakpoint-xtiny: 80px;
+  --breakpoint-tiny: 160px;
+  --breakpoint-mps: 320px;
+  --breakpoint-mpm: 375px;
+  --breakpoint-mpl: 414px;
+  --breakpoint-ml: 576px;
+  --breakpoint-tps: 640px;
+  --breakpoint-tp: 768px;
+  --breakpoint-tls: 960px;
+  --breakpoint-tl: 1024px;
+  --breakpoint-ds: 1280px;
+  --breakpoint-nav: 1360px;
+  --breakpoint-dl: 1440px;
+  --breakpoint-dxl: 1600px;
+  --breakpoint-dxxl: 1920px;
+  --breakpoint-ws: 2560px;
+}

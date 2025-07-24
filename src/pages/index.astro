@@ -1,0 +1,849 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <div
+    class="flex justify-center items-center transition-transform duration-1000 rotate-0 [[data-scroll-direction=down]_&]:rotate-180 fixed right-5 top-5 z-4 bg-gradient-to-r from-denim-500 to-orange-500 w-10 h-10 rounded-full"
+  >
+    <i class="icon-[mdi-light--arrow-up] text-white text-2xl"></i>
+  </div>
+  <main
+    class="col-[1/-1] min-h-screen bg-transparent theme-dark:bg-gray-900 theme-dark:text-white overflow-clip transition-colors duration-1000"
+  >
+    <!-- Hero Section -->
+    <section
+      class="h-screen flex items-center justify-center relative"
+      data-scroll="enter:0vh; exit:0vh; once:false; theme:dark;"
+    >
+      <div class="text-center z-10">
+        <h1
+          data-scroll="enter:80vh; exit:30vh; once:false;"
+          data-animation="from:letter-spacing-0; to:letter-spacing-20"
+          class="text-display-1 bg-gradient-to-r from-denim-500 to-orange-500 bg-clip-text text-transparent"
+        >
+          ScrollyMotion
+        </h1>
+        <p class="text-3xl mt-4 text-gray-500 theme-dark:text-gray-300">
+          Comprehensive showcase of all animation possibilities
+        </p>
+      </div>
+
+      <!-- Background particles -->
+      <div
+        class="absolute inset-0 opacity-20 h-[300vh] -z-0"
+        data-scroll="enter:100vh; distance:200vh; once:false;"
+        data-animation="[&>div]:from:scale-0|opacity-0|translateX-0; via-50%:scale-100|opacity-100|translateX-10 to:scale-100|opacity-100|translateX-10"
+      >
+        <div
+          class="fixed top-20 left-20 w-50 h-50 bg-[hsl(calc(var(--element-progress)*240),100%,50%)] rounded-full blur-3xl"
+        >
+        </div>
+        <div
+          class="fixed top-20 left-[50%] w-100 h-100 bg-[linear-gradient(calc(var(--element-progress)*180deg),#ff0000,#0000ff)] rounded-full blur-[100px]"
+        >
+        </div>
+        <div
+          class="fixed top-40 right-32 w-24 h-24 bg-orange-200 rounded-full blur-xl"
+        >
+        </div>
+        <div
+          class="fixed bottom-40 left-40 w-40 h-40 bg-denim-200 rounded-full blur-xl"
+        >
+        </div>
+        <div
+          class="fixed bottom-20 right-20 w-120 h-120 bg-yellow-400 rounded-full blur-3xl"
+        >
+        </div>
+        <div
+          class="fixed bottom-[25%] right-[50%] w-75 h-75 bg-green-200 rounded-full blur-3xl"
+        >
+        </div>
+      </div>
+    </section>
+
+    <!-- Negative Values Section -->
+    <section
+      class="py-20 px-8"
+      data-scroll="enter:0vh; exit:0vh; once:false; theme:dark;"
+    >
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:translateY--30; to:translateY-0;"
+        >
+          Negative Values
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Negative Tailwind Values -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateY--50; to:translateY-0;"
+          >
+            <h3 class="text-xl font-semibold mb-4">Negative Tailwind</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300">
+              translateY--50 to translateY-0
+            </p>
+            <div class="w-16 h-16 bg-blue-500 rounded-lg mt-4 mx-auto"></div>
+          </div>
+
+          <!-- Negative Arbitrary Values -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateY-[-100px]; to:translateY-[0px];"
+          >
+            <h3 class="text-xl font-semibold mb-4">Negative Arbitrary</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300">
+              translateY-[-100px] to translateY-[0px]
+            </p>
+            <div class="w-16 h-16 bg-green-500 rounded-lg mt-4 mx-auto"></div>
+          </div>
+
+          <!-- Negative Viewport Units -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateY-[-25vh]; to:translateY-[0vh];"
+          >
+            <h3 class="text-xl font-semibold mb-4">Negative Viewport</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300">
+              translateY-[-25vh] to translateY-[0vh]
+            </p>
+            <div class="w-16 h-16 bg-purple-500 rounded-lg mt-4 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Viewport Units Section -->
+    <section
+      class="py-20 px-8"
+      data-scroll="enter:0vh; exit:0vh; once:false; theme:dark;"
+    >
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:translateY-[50vh]; to:translateY-[0vh];"
+        >
+          Viewport Units
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateY-[100vh]; to:translateY-[0vh];"
+          >
+            <h3 class="text-lg font-semibold mb-2">100vh</h3>
+            <div class="w-12 h-12 bg-red-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateX-[50vw]; to:translateX-[0vw];"
+          >
+            <h3 class="text-lg font-semibold mb-2">50vw</h3>
+            <div class="w-12 h-12 bg-blue-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateY-[30vmin]; to:translateY-[0vmin];"
+          >
+            <h3 class="text-lg font-semibold mb-2">30vmin</h3>
+            <div class="w-12 h-12 bg-green-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+            data-scroll="enter:10vh; distance:50vh; once:false;"
+            data-animation="from:translateX-[25vmax]; to:translateX-[0vmax];"
+          >
+            <h3 class="text-lg font-semibold mb-2">25vmax</h3>
+            <div class="w-12 h-12 bg-yellow-500 rounded-lg mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transform Properties Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:scale-0; to:scale-100;"
+        >
+          Transform Properties
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Translation -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Translation</h3>
+            <div class="space-y-6">
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:translateX--100; to:translateX-0;"
+              >
+                <p class="mb-4">translateX</p>
+                <div class="w-16 h-16 bg-blue-500 rounded-lg mx-auto"></div>
+              </div>
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:translateY--100; to:translateY-0;"
+              >
+                <p class="mb-4">translateY</p>
+                <div class="w-16 h-16 bg-green-500 rounded-lg mx-auto"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scale -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Scale</h3>
+            <div class="space-y-6">
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:scale-0; to:scale-100;"
+              >
+                <p class="mb-4">scale</p>
+                <div class="w-16 h-16 bg-purple-500 rounded-lg mx-auto"></div>
+              </div>
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:scaleX-0; to:scaleX-100;"
+              >
+                <p class="mb-4">scaleX</p>
+                <div class="w-16 h-16 bg-pink-500 rounded-lg mx-auto"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rotation -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Rotation</h3>
+            <div class="space-y-6">
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:rotate--180; to:rotate-0;"
+              >
+                <p class="mb-4">rotate</p>
+                <div class="w-16 h-16 bg-orange-500 rounded-lg mx-auto"></div>
+              </div>
+              <div
+                class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+                data-scroll="enter:10vh; distance:50vh; once:false;"
+                data-animation="from:rotate-360; to:rotate-0;"
+              >
+                <p class="mb-4">rotate 360°</p>
+                <div class="w-16 h-16 bg-red-500 rounded-lg mx-auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Animations Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:opacity-0|translateY-50; via-50%:opacity-50|translateY-25; to:opacity-100|translateY-0;"
+        >
+          Timeline Animations
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Complex Timeline -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateY-[-50vh]|opacity-0|scale-0; via-30%:translateY-[-10vh]|opacity-50|scale-50; via-70%:translateY-[10vh]|opacity-80|scale-120; to:translateY-[0vh]|opacity-100|scale-100;"
+          >
+            <h3 class="text-xl font-semibold mb-4">Complex Timeline</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Multi-step animation with viewport units
+            </p>
+            <div
+              class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg mx-auto"
+            >
+            </div>
+          </div>
+
+          <!-- Bounce Effect -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateY--100|scale-0; via-60%:translateY-10|scale-110; to:translateY-0|scale-100;"
+          >
+            <h3 class="text-xl font-semibold mb-4">Bounce Effect</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Overshoot and settle animation
+            </p>
+            <div
+              class="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg mx-auto"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stagger Animations Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:translateY--50; to:translateY-0;"
+        >
+          Stagger Animations
+        </h2>
+
+        <div class="space-y-12">
+          <!-- Basic Stagger -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Basic Stagger</h3>
+            <div
+              class="flex justify-center space-x-4"
+              data-scroll="enter:-20vh; distance:70vh; once:false;"
+              data-animation="@desktop:[&>div]:from:opacity-0|translateY--50; via-50%:opacity-100|translateY-100; to:opacity-100|translateY-0|stagger-0.2; @tablet:[&>div]:from:opacity-0|translateY--50; via-50%:opacity-100|translateY-100; to:opacity-100|translateY-0|stagger-0.2; @mobile:[&>div]:from:opacity-0|translateY--50; to:opacity-100|translateY-0|stagger-0.2;"
+            >
+              <div class="w-16 h-16 bg-blue-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-green-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-purple-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-pink-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-yellow-500 rounded-lg"></div>
+            </div>
+          </div>
+
+          <!-- Stagger with Rotation -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Stagger with Rotation</h3>
+            <div
+              class="flex justify-center space-x-4"
+              data-scroll="enter:-20vh; distance:70vh; once:false;"
+              data-animation="[&>div]:from:opacity-0|rotate--180|scale-0; to:opacity-100|rotate-0|scale-100|stagger-0.15"
+            >
+              <div class="w-16 h-16 bg-red-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-orange-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-yellow-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-green-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-blue-500 rounded-lg"></div>
+              <div class="w-16 h-16 bg-purple-500 rounded-lg"></div>
+            </div>
+          </div>
+
+          <!-- Timeline Stagger -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Timeline Stagger</h3>
+            <div
+              class="grid grid-cols-4 gap-4 max-w-md mx-auto"
+              data-scroll="enter:-20vh; distance:70vh; once:false;"
+              data-animation="[&>div]:from:opacity-0|scale-0|rotate-90; via-50%:opacity-100|scale-120|rotate-45; to:opacity-100|scale-100|rotate-0|stagger-0.1"
+            >
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-green-500 to-yellow-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-lg"
+              >
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-lg"
+              >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mixed Units Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:translateY-[50vh]; to:translateY-[0vh];"
+        >
+          Mixed Units
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Pixels -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateY-[-200px]; to:translateY-[0px];"
+          >
+            <h3 class="text-xl font-semibold mb-4">Pixels</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              -200px to 0px
+            </p>
+            <div class="w-16 h-16 bg-blue-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- REM Units -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateY-[-10rem]; to:translateY-[0rem];"
+          >
+            <h3 class="text-xl font-semibold mb-4">REM Units</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              -10rem to 0rem
+            </p>
+            <div class="w-16 h-16 bg-green-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- Percentage -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateX-[-100%]; to:translateX-[0%];"
+          >
+            <h3 class="text-xl font-semibold mb-4">Percentage</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              -100% to 0%
+            </p>
+            <div class="w-16 h-16 bg-purple-500 rounded-lg mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Combinations Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:opacity-0|scale-0|rotate--90; to:opacity-100|scale-100|rotate-0;"
+        >
+          Advanced Combinations
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Everything Combined -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateY-[-50vh]|translateX-[-25vw]|rotate--180|scale-0|opacity-0; via-50%:translateY-[5vh]|translateX-[2vw]|rotate--90|scale-120|opacity-50; to:translateY-[0vh]|translateX-[0vw]|rotate-0|scale-100|opacity-100;"
+          >
+            <h3 class="text-xl font-semibold mb-4">Everything Combined</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              All transforms + viewport units
+            </p>
+            <div
+              class="w-20 h-20 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg mx-auto"
+            >
+            </div>
+          </div>
+
+          <!-- Negative Rotation Sequence -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:rotate--720|scale-0; via-25%:rotate--360|scale-50; via-75%:rotate--180|scale-150; to:rotate-0|scale-100;"
+          >
+            <h3 class="text-xl font-semibold mb-4">
+              Negative Rotation Sequence
+            </h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              -720° to 0° with scale
+            </p>
+            <div
+              class="w-20 h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg mx-auto"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breakpoint Presets Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:translateY--50; to:translateY-0;"
+        >
+          Breakpoint Presets
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Responsive Preset -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="preset:responsiveFadeIn"
+          >
+            <h3 class="text-xl font-semibold mb-4">Responsive Fade In</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Uses responsiveFadeIn preset - same animation on all devices
+            </p>
+            <div class="w-16 h-16 bg-blue-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- Mobile Optimized -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="@mobile:preset:mobileBounce @tablet:preset:responsiveFadeIn @desktop:preset:desktopComplex"
+          >
+            <h3 class="text-xl font-semibold mb-4">Breakpoint Specific</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Different presets per breakpoint: mobile bounce, tablet fade,
+              desktop complex
+            </p>
+            <div class="w-16 h-16 bg-green-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- Mixed Preset and Custom -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="@mobile:from:opacity-0|translateY--30; to:opacity-100|translateY-0 @desktop:preset:desktopComplex"
+          >
+            <h3 class="text-xl font-semibold mb-4">Mixed Approach</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Mobile uses custom animation, desktop uses preset
+            </p>
+            <div class="w-16 h-16 bg-purple-500 rounded-lg mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Animation Properties -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:scale-0; to:scale-100;"
+        >
+          Filter Animation Properties
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Blur -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Blur</h3>
+            <div
+              class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false;"
+              data-animation="from:blur-20; to:blur-0;"
+            >
+              <p class="mb-4">Blur</p>
+              <div class="w-16 h-16 bg-blue-500 rounded-lg mx-auto"></div>
+            </div>
+          </div>
+
+          <!-- Grayscale -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Grayscale</h3>
+            <div
+              class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false;"
+              data-animation="from:grayscale-100; to:grayscale-0;"
+            >
+              <p class="mb-4">Grayscale</p>
+              <div class="w-16 h-16 bg-green-500 rounded-lg mx-auto"></div>
+            </div>
+          </div>
+
+          <!-- Skew -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Skew</h3>
+            <div
+              class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false;"
+              data-animation="from:skewX-45|skewY-15; to:skewX-0|skewY-0;"
+            >
+              <p class="mb-4">Skew</p>
+              <div class="w-16 h-16 bg-purple-500 rounded-lg mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CSS Custom Property Integration -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:scale-0; to:scale-100;"
+        >
+          CSS Custom Property Integration
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- HSL Color Wheel -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">HSL Color Wheel</h3>
+            <div
+              class="bg-[hsl(calc(var(--element-progress)*360),100%,50%)] p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false;"
+              data-animation="from:opacity-0; to:opacity-100;"
+            >
+              <p class="mb-4">HSL Color Wheel</p>
+              <div class="w-16 h-16 bg-transparent rounded-lg mx-auto"></div>
+            </div>
+          </div>
+
+          <!-- RGB Interpolation -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">RGB Interpolation</h3>
+            <div
+              class="bg-[rgb(calc(255-var(--element-progress)*255),calc(var(--element-progress)*255),0)] p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false;"
+              data-animation="from:opacity-0; to:opacity-100;"
+            >
+              <p class="mb-4">RGB Interpolation</p>
+              <div class="w-16 h-16 bg-transparent rounded-lg mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:-20vh; distance:70vh; once:false;"
+          data-animation="from:translateY-50; to:translateY-0;"
+        >
+          Performance Features
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- GPU Acceleration -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:translateZ-[-100px]|rotateX--90; to:translateZ-[0px]|rotateX-0;"
+          >
+            <h3 class="text-xl font-semibold mb-4">GPU Acceleration</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              3D transforms for hardware acceleration
+            </p>
+            <div class="w-16 h-16 bg-blue-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- Smooth Interpolation -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:50vh; once:false;"
+            data-animation="from:translateY-[-10vh]; to:translateY-[0vh];"
+          >
+            <h3 class="text-xl font-semibold mb-4">Smooth Interpolation</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              String values interpolated smoothly
+            </p>
+            <div class="w-16 h-16 bg-green-500 rounded-lg mx-auto"></div>
+          </div>
+
+          <!-- Optimized Updates -->
+          <div
+            class="bg-white/50 theme-dark:bg-gray-800 p-8 rounded-lg"
+            data-scroll="enter:-20vh; distance:70vh; once:false;"
+            data-animation="from:scale-0|opacity-0; to:scale-100|opacity-100;"
+          >
+            <h3 class="text-xl font-semibold mb-4">Optimized Updates</h3>
+            <p class="text-gray-500 theme-dark:text-gray-300 mb-4">
+              Minimal DOM manipulation
+            </p>
+            <div class="w-16 h-16 bg-purple-500 rounded-lg mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Web Component Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:scale-0; to:scale-100;"
+        >
+          Web Component Integration
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Progress Web Component -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Progress Web Component</h3>
+            <div
+              class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+              data-scroll="enter:10vh; distance:50vh; once:false; wc:my-animated-card;"
+            >
+              <my-animated-card>
+                <div class="w-25 h-25 bg-blue-500 rounded-lg mx-auto"></div>
+              </my-animated-card>
+            </div>
+          </div>
+
+          <!-- Trigger Web Component -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-8">Trigger Web Component</h3>
+            <div
+              class="bg-white/50 theme-dark:bg-gray-800 p-6 rounded-lg"
+              data-scroll="enter:50vh; leave:50vh; once:false; wc:my-trigger-card;"
+            >
+              <my-trigger-card>
+                <canvas width="100" height="100"></canvas>
+              </my-trigger-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enter and Leave Classes Section -->
+    <section class="py-20 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-headline-4 text-center mb-16"
+          data-scroll="enter:10vh; distance:50vh; once:false;"
+          data-animation="from:scale-0; to:scale-100;"
+        >
+          Enter and Leave Classes
+        </h2>
+
+        <div
+          class="w-20 h-20 bg-blue-500 rounded-lg mx-auto"
+          data-scroll="enter:30vh; exit:10vh; once:false; enterClass:'motion-scale-in-0'; leaveClass:'motion-scale-out-0';"
+        >
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="h-[100vh] flex items-center justify-center bg-white/50 theme-dark:bg-gray-800 text-center"
+    >
+      <div
+        class="max-w-4xl mx-auto"
+        data-scroll="enter:0vh; distance:20vh; once:false;"
+        data-animation="from:opacity-0; to:opacity-100;"
+      >
+        <h2 class="text-headline-3 mb-4">ScrollMaster Demo Complete</h2>
+        <p class="text-gray-500 theme-dark:text-gray-300">
+          All animation types, negative values, viewport units, and advanced
+          combinations demonstrated
+        </p>
+      </div>
+    </footer>
+  </main>
+</Layout>
+
+<script>
+  class MyAnimatedCard extends HTMLElement {
+    progress(value: number) {
+      this.style.setProperty("--scroll-progress", value.toString());
+      this.style.opacity = value.toString();
+      this.style.transform = `scale(${value})`;
+    }
+  }
+  customElements.define("my-animated-card", MyAnimatedCard);
+
+  class MyTriggerCard extends HTMLElement {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    x: number;
+    y: number;
+    dx: number;
+    dy: number;
+    animationFrameId: number | null;
+
+    constructor() {
+      super();
+      this.canvas = this.querySelector("canvas")!;
+      this.ctx = this.canvas.getContext("2d")!;
+      this.x = 50;
+      this.y = 50;
+      this.dx = 2;
+      this.dy = -2;
+      this.animationFrameId = null;
+    }
+
+    draw() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
+      this.ctx.fillStyle = "#0095DD";
+      this.ctx.fill();
+      this.ctx.closePath();
+
+      if (this.x + this.dx > this.canvas.width - 10 || this.x + this.dx < 10) {
+        this.dx = -this.dx;
+      }
+      if (this.y + this.dy > this.canvas.height - 10 || this.y + this.dy < 10) {
+        this.dy = -this.dy;
+      }
+
+      this.x += this.dx;
+      this.y += this.dy;
+
+      this.animationFrameId = requestAnimationFrame(() => this.draw());
+    }
+
+    enter() {
+      if (!this.animationFrameId) {
+        this.draw();
+      }
+    }
+
+    leave() {
+      if (this.animationFrameId) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
+      }
+    }
+  }
+  customElements.define("my-trigger-card", MyTriggerCard);
+</script>

@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="col-[1/-1] h-[100vh] relative flex items-center justify-center">
+    <h1 class="text-6xl text-dark font-bold">Scroll down</h1>
+  </div>
+  <section class="col-[2/-2] h-[50vh] flex items-center justify-center">
+    <div
+      data-animation="
+        from:opacity-0|translateX-10|blur-8|grayscale-100|skewX-12|letter-spacing-10|perspective-1000; to:opacity-100|translateX-0|blur-0|grayscale-0|skewX-0|letter-spacing-0|perspective-500;
+        @mobile:from:opacity-0|translateX--100|blur-8|grayscale-100|skewY-12|letter-spacing-10|perspective-1000; to:opacity-100|translateX-0|blur-0|grayscale-0|skewY-0|letter-spacing-0|perspective-500;
+        @tablet:from:opacity-0|translateX-100|blur-8|grayscale-100|skewX-12|letter-spacing-10|perspective-1000; to:opacity-100|translateX-0|blur-0|grayscale-0|skewX-0|letter-spacing-0|perspective-500;
+        @desktop:from:opacity-0|translateX--100|blur-8|grayscale-100|skewY-12|letter-spacing-10|perspective-1000; to:opacity-100|translateX-0|blur-0|grayscale-0|skewY-0|letter-spacing-0|perspective-500;
+      "
+      class="p-8 rounded-lg shadow-lg bg-white/50"
+    >
+      Mobile: slides from left, Desktop: slides from right, with blur,
+      grayscale, skew, letter-spacing and perspective
+    </div>
+    <div
+      data-animation="from:perspective-1200|rotateX-0|rotateY-0; to:perspective-800|rotateX-15|rotateY-45;"
+    >
+      3D rotating cube
+    </div>
+  </section>
+  <section class="col-[2/-2] h-[200vh] flex items-center justify-center">
+    the end
+  </section>
+</Layout>
+
+<!-- Example: Custom Web Component with ScrollMaster -->
+
+<script>
+  class MyAnimatedCard extends HTMLElement {
+    progress(value: number) {
+      // Animate based on scroll progress (0–1)
+      this.style.setProperty("--scroll-progress", value.toString());
+      this.style.opacity = value.toString();
+      this.style.transform = `scale(${value})`;
+      //console.log("Scroll progress:", value);
+    }
+  }
+  customElements.define("my-animated-card", MyAnimatedCard);
+
+  class MyTriggerCard extends HTMLElement {
+    enter() {
+      // triggered when entering the viewport
+      console.log("Entering viewport");
+    }
+    leave() {
+      // triggered when leaving the viewport
+      console.log("Leaving viewport");
+    }
+  }
+  customElements.define("my-trigger-card", MyTriggerCard);
+</script>
