@@ -195,6 +195,15 @@ interface ScrollAnimatorConfig {
 ></div>
 ```
 
+#### Enter Behavior Explained
+
+The `enter` parameter controls when an element triggers its enter state (applies `enterClass` and removes `leaveClass`):
+
+- `enter: 0vh` - Element enters when its **top** reaches the **bottom** of the viewport
+- `exit: 25vh` - Element enters when its **top** is 25vh from the **bottom** of the viewport
+- `exit: 50vh` - Element enters when its **top** is 50vh from the **bottom** of the viewport
+- `exit: 100vh` - Element enters when its **top** is 100vh reaches the **top** of the viewport
+
 #### Exit Behavior Explained
 
 The `exit` parameter controls when an element triggers its exit state (applies `leaveClass` and removes `enterClass`):
