@@ -1,26 +1,25 @@
-# ScrollyMotion Plugin
+# @laubloch/scrolly-motion
+
+[![npm version](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion.svg)](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion)
 
 Advanced scroll animation system with breakpoint support, timeline presets, stagger animations, and physics damping.
 
-## Features
+## Installation
 
-- **Breakpoint Animations**: Different animations for different screen sizes
-- **Timeline Presets**: Reusable animation sequences
-- **Stagger Animations**: Animate multiple children with delays
-- **Physics Damping**: Smooth, natural animation feel
-- **GPU Acceleration**: Hardware-accelerated transforms
-- **TypeScript Support**: Full type definitions
+```bash
+npm install @laubloch/scrolly-motion
+```
 
 ## Quick Start
 
 ```typescript
-import { ScrollyMotion } from "./plugins/scrollyMotion";
+import { ScrollyMotion } from "@laubloch/scrolly-motion";
 
 // Initialize with default settings
-const ScrollyMotion = new ScrollyMotion();
+const scrollyMotion = new ScrollyMotion();
 
 // Or with custom configuration
-const ScrollyMotion = new ScrollyMotion({
+const scrollyMotion = new ScrollyMotion({
   selector: "[data-scroll], [data-animation]",
   defaultEnter: "50vh",
   breakpoints: {

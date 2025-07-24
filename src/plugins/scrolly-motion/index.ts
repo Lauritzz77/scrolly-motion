@@ -16,7 +16,6 @@ export type {
   TimelinePreset,
   ScrollElement,
   DebouncedFunction,
-  ScrollMasterMetrics,
 } from "./types/index.js";
 
 // Export individual modules for advanced usage
@@ -32,12 +31,7 @@ export {
   initializeMediaQueries,
 } from "./utils/helpers.js";
 
-export {
-  DEFAULT_CONFIG,
-  DEFAULT_ELEMENT_CONFIG,
-  PHYSICS_CONFIG,
-  BREAKPOINT_ORDER,
-} from "./utils/constants.js";
+export { DEFAULT_CONFIG, PHYSICS_CONFIG } from "./utils/constants.js";
 
 // Create a default instance (null - to be created manually)
 export const scrollyMotion = null;

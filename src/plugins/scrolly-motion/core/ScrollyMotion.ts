@@ -5,18 +5,10 @@
 
 import type {
   ScrollAnimatorConfig,
-  ScrollElement,
   ScrollyMotionMetrics,
   TimelineStep,
-  MultiBreakpointStaggerConfig,
-  StaggerConfig,
 } from "../types/index.js";
-import {
-  DEFAULT_CONFIG,
-  DEFAULT_ELEMENT_CONFIG,
-  DEFAULT_SCROLL_CONFIG,
-  BREAKPOINT_ORDER,
-} from "../utils/constants.js";
+import { DEFAULT_CONFIG } from "../utils/constants.js";
 import { debounce, initializeMediaQueries } from "../utils/helpers.js";
 import { validateConfig } from "../utils/validation.js";
 import { Parser } from "./Parser.js";

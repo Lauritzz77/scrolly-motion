@@ -3,12 +3,7 @@
  * Handles animation updates, value calculations, and CSS application
  */
 
-import type {
-  ScrollElement,
-  AnimationConfig,
-  StaggerConfig,
-  TimelineStep,
-} from "../types/index.js";
+import type { ScrollElement, TimelineStep } from "../types/index.js";
 
 export class Animation {
   /**
