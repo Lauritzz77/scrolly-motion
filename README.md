@@ -1,5 +1,7 @@
 # @laubloch/scrolly-motion
 
+**[🚀 Try it out! Live Demo 🚀](https://lauritzz77.github.io/scrolly-motion/)**
+
 [![npm version](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion.svg)](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion)
 
 Performant and advanced scroll animation system with breakpoint support, timeline presets, stagger animations, and physics damping.
