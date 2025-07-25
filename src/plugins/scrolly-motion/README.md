@@ -392,24 +392,6 @@ scrolly.registerPlugin(bouncePlugin);
 </div>
 ```
 
-## Migration Guide
-
-### From v1.0.x to Modular System
-
-**Old way (still works):**
-
-```typescript
-import { ScrollyMotion } from "@laubloch/scrolly-motion";
-const scrolly = new ScrollyMotion(); // Gets all features
-```
-
-**New modular way:**
-
-```typescript
-import { ScrollyMotion, timeline, stagger } from "@laubloch/scrolly-motion";
-const scrolly = new ScrollyMotion(timeline, stagger); // Only what you need
-```
-
 ## Bundle Size Comparison
 
 | Setup           | Size (minified) | Size (gzipped) | Features                                  |
@@ -427,19 +409,3 @@ const scrolly = new ScrollyMotion(timeline, stagger); // Only what you need
 - Firefox 55+
 - Safari 12.1+
 - Edge 79+
-
-## TypeScript Support
-
-Full TypeScript support with proper module typing:
-
-```typescript
-import {
-  ScrollyMotion,
-  timeline,
-  stagger,
-  themes,
-  webcomponents,
-  type ScrollAnimatorConfig,
-  type TimelineStep,
-} from "@laubloch/scrolly-motion";
-```

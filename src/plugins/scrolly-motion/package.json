@@ -1,7 +1,7 @@
 {
   "name": "@laubloch/scrolly-motion",
-  "version": "1.0.8",
-  "description": "Advanced scroll animation library with breakpoint support, timeline presets, and physics damping",
+  "version": "1.0.9",
+  "description": "Advanced scroll animation library with breakpoint support, timeline presets.",
   "author": "@laubloch",
   "license": "MIT",
   "main": "./dist/index.cjs",
