@@ -2,9 +2,11 @@
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export default defineConfig({
   site: 'https://lauritzz77.github.io',
-  base: '/scrolly-motion',
+  base: isProd ? '/scrolly-motion' : '/',
   output: "static",
   prefetch: true,
   devToolbar: {
