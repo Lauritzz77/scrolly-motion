@@ -58,16 +58,12 @@ export interface ScrollElement extends HTMLElement {
   _leaveClassNames: string[];
   _theme: string | null;
   _wcElements: HTMLElement[];
+  _webComponents: string | null; // Web component selector
   _lastProg: number | null;
   _animationConfig: AnimationConfig | null;
   _animeInstance: any | null;
-  _damping: number;
   _targetProgress: number;
   _currentProgress: number;
-  _friction: number;
-  _velocity: number;
-  _lastTargetProgress: number;
-  _isScrolling: boolean;
   _staggerConfig: StaggerConfig | null;
   _multiStaggerConfig: MultiBreakpointStaggerConfig | null;
   _staggerChildren: HTMLElement[];

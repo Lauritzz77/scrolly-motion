@@ -21,26 +21,8 @@ import Layout from "@/layouts/Layout.astro";
 <!-- Example: Custom Web Component with ScrollMaster -->
 
 <script>
-  class MyAnimatedCard extends HTMLElement {
-    progress(value: number) {
-      // Animate based on scroll progress (0–1)
-      this.style.setProperty("--scroll-progress", value.toString());
-      this.style.opacity = value.toString();
-      this.style.transform = `scale(${value})`;
-      //console.log("Scroll progress:", value);
-    }
-  }
-  customElements.define("my-animated-card", MyAnimatedCard);
+  import { ScrollyMotion } from "@/plugins/scrolly-motion/index.ts";
 
-  class MyTriggerCard extends HTMLElement {
-    enter() {
-      // triggered when entering the viewport
-      console.log("Entering viewport");
-    }
-    leave() {
-      // triggered when leaving the viewport
-      console.log("Leaving viewport");
-    }
-  }
-  customElements.define("my-trigger-card", MyTriggerCard);
+  // Only basic scroll progress tracking, no animations
+  const scrolly = new ScrollyMotion();
 </script>

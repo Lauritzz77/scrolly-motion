@@ -28,15 +28,6 @@ export const DEFAULT_SCROLL_CONFIG = {
   friction: 0.95,
 } as const;
 
-export const PHYSICS_CONFIG = {
-  maxDeltaTime: 16.67, // Cap at 60fps
-  scrollStopDelay: 100, // ms to detect scroll stop
-  minProgressDiff: 0.001,
-  minVelocity: 0.001,
-  attractionForce: 0.015,
-  velocityScale: 0.8,
-} as const;
-
 export const BREAKPOINT_ORDER = [
   "large",
   "desktop",

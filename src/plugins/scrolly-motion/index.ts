@@ -2,9 +2,10 @@
  * ScrollyMotion - Advanced Scroll Animation Library
  */
 
-// Import and export main class
-import { ScrollyMotion } from "./core/ScrollyMotion.js";
-export { ScrollyMotion };
+// Import and export main classes
+import { ScrollyMotion } from "./core/ModularScrollyMotionCore.js";
+import { ModularScrollyMotion } from "./core/ModularScrollyMotion.js";
+export { ScrollyMotion, ModularScrollyMotion };
 
 // Export types for TypeScript users
 export type {
@@ -18,10 +19,26 @@ export type {
   DebouncedFunction,
 } from "./types/index.js";
 
-// Export individual modules for advanced usage
+// Export modules for modular usage
+export {
+  timeline,
+  stagger,
+  themes,
+  webcomponents,
+  moduleRegistry,
+  defaultModules,
+  allModules,
+} from "./modules/index.js";
+
+// Export module types
+export type {
+  ScrollyMotionModule,
+  ScrollyMotionCore,
+} from "./modules/index.js";
+
+// Export individual core classes for advanced usage
 export { Parser } from "./core/Parser.js";
 export { Animation } from "./core/Animation.js";
-export { Physics } from "./core/Physics.js";
 
 // Export utilities
 export {
@@ -31,10 +48,11 @@ export {
   initializeMediaQueries,
 } from "./utils/helpers.js";
 
-export { DEFAULT_CONFIG, PHYSICS_CONFIG } from "./utils/constants.js";
+export { DEFAULT_CONFIG } from "./utils/constants.js";
 
-// Create a default instance (null - to be created manually)
-export const scrollyMotion = null;
+// Export warning system
+export { warningSystem, WarningSystem } from "./utils/warnings.js";
+export type { ModuleWarning } from "./utils/warnings.js";
 
 // Make ScrollMaster class available globally for debugging
 if (typeof window !== "undefined") {

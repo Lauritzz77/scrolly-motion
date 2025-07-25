@@ -1,6 +1,9 @@
 /**
- * ScrollyMotion Core Class
- * Main class that orchestrates all scroll animation functionality
+ * Modular ScrollyMotion Core Class
+ * Implements the API specified in TODO.md:
+ * new ScrollyMotion() - minimal core only
+ * new ScrollyMotion(timeline, physics) - with specific features
+ * new ScrollyMotion(timeline, physics, config) - with configuration
  */
 
 import type {
@@ -13,12 +16,12 @@ import { debounce, initializeMediaQueries } from "../utils/helpers";
 import { validateConfig } from "../utils/validation";
 import { Parser } from "./Parser";
 import { Animation } from "./Animation";
-import { Physics } from "./Physics";
 import { ThemeManager } from "./ThemeManager";
 import { ElementManager } from "./ElementManager";
 import { EventManager } from "./EventManager";
 import { PluginManager } from "./PluginManager";
 import type { ScrollyMotionPlugin } from "./PluginManager";
+import type { ScrollyMotionModule } from "../modules/ModuleInterface";
 
 interface ProgressWebComponent extends HTMLElement {
   progress: (value: number) => void;
@@ -34,18 +37,23 @@ export class ScrollyMotion {
   private body: HTMLElement;
   private onResize: () => void;
   private mediaQueries: Map<string, MediaQueryList>;
+  private modules: ScrollyMotionModule[];
 
   private parser: Parser;
   private animation: Animation;
-  private physics: Physics;
   private themeManager: ThemeManager;
   private elementManager: ElementManager;
   private eventManager: EventManager;
   private pluginManager: PluginManager;
 
-  constructor(config: ScrollAnimatorConfig = {}) {
+  constructor(...args: any[]) {
+    // Parse arguments according to TODO.md API
+    const { modules, config } = this.parseConstructorArgs(args);
+
+    this.modules = modules;
     this.eventManager = new EventManager();
     this.pluginManager = new PluginManager();
+
     const { isValid, errors, warnings, sanitizedConfig } =
       validateConfig(config);
 
@@ -74,7 +82,7 @@ export class ScrollyMotion {
       sanitizedConfig.breakpoints || DEFAULT_CONFIG.breakpoints
     );
 
-    // Initialize modules
+    // Initialize core modules
     const timelinePresets = this.initializePresets(sanitizedConfig.presets);
     this.parser = new Parser(
       timelinePresets,
@@ -82,7 +90,6 @@ export class ScrollyMotion {
       this.pluginManager
     );
     this.animation = new Animation();
-    this.physics = new Physics();
     this.themeManager = new ThemeManager();
     this.elementManager = new ElementManager(
       sanitizedConfig,
@@ -92,13 +99,112 @@ export class ScrollyMotion {
       this.mediaQueries
     );
 
+    // Initialize feature modules
+    this.initializeModules();
+
     this.init();
   }
 
+  private parseConstructorArgs(args: any[]): {
+    modules: ScrollyMotionModule[];
+    config: ScrollAnimatorConfig;
+  } {
+    const modules: ScrollyMotionModule[] = [];
+    let config: ScrollAnimatorConfig = {};
+
+    // Parse arguments based on TODO.md patterns:
+    // new ScrollyMotion() - no args, minimal core
+    // new ScrollyMotion(timeline, physics) - modules only
+    // new ScrollyMotion(timeline, physics, config) - modules + config
+    // new ScrollyMotion(config) - config only (backward compatibility)
+
+    if (args.length === 0) {
+      // Minimal core only
+      return { modules, config };
+    }
+
+    // Check if last argument is a config object
+    const lastArg = args[args.length - 1];
+    const isLastArgConfig =
+      lastArg &&
+      typeof lastArg === "object" &&
+      !lastArg.name && // modules have a name property
+      !Array.isArray(lastArg) &&
+      typeof lastArg !== "function"; // modules are functions
+
+    if (isLastArgConfig) {
+      config = lastArg;
+      // All other args are modules (factory functions)
+      for (let i = 0; i < args.length - 1; i++) {
+        const arg = args[i];
+        if (typeof arg === "function") {
+          // It's a factory function, call it to get the module instance
+          const moduleInstance = arg();
+          if (moduleInstance && moduleInstance.name) {
+            modules.push(moduleInstance);
+          }
+        } else if (arg && typeof arg === "object" && arg.name) {
+          // It's already a module instance
+          modules.push(arg);
+        }
+      }
+    } else {
+      // All args are modules, or single config for backward compatibility
+      if (
+        args.length === 1 &&
+        typeof args[0] === "object" &&
+        !args[0].name &&
+        typeof args[0] !== "function"
+      ) {
+        // Single argument that's not a module = config (backward compatibility)
+        config = args[0];
+      } else {
+        // All arguments are modules (factory functions or instances)
+        for (const arg of args) {
+          if (typeof arg === "function") {
+            // It's a factory function, call it to get the module instance
+            const moduleInstance = arg();
+            if (moduleInstance && moduleInstance.name) {
+              modules.push(moduleInstance);
+            }
+          } else if (arg && typeof arg === "object" && arg.name) {
+            // It's already a module instance
+            modules.push(arg);
+          }
+        }
+      }
+    }
+
+    console.log(
+      "🔧 ScrollyMotion: Parsed modules:",
+      modules.map((m) => m.name)
+    );
+    return { modules, config };
+  }
+
+  private initializeModules(): void {
+    // Initialize each module
+    this.modules.forEach((module) => {
+      if (module.init) {
+        module.init(this);
+      }
+    });
+  }
+
+  private hasModule(moduleName: string): boolean {
+    return this.modules.some((module) => module.name === moduleName);
+  }
+
   destroy(): void {
+    // Destroy modules first
+    this.modules.forEach((module) => {
+      if (module.destroy) {
+        module.destroy();
+      }
+    });
+
     window.removeEventListener("resize", this.onResize);
     window.removeEventListener("scroll", this.onScroll);
-    this.physics.stopPhysics();
     this.elementManager.destroy();
     this.eventManager.destroy();
     this.pluginManager.destroy();
@@ -113,29 +219,23 @@ export class ScrollyMotion {
         this.elementManager.measureElements();
 
         // Initialize all elements with progress = 0 to ensure they start in their initial state
-        // The initial visual state is already applied in ElementManager._applyInitialVisualState
         elements.forEach((el) => {
           el._currentProgress = 0;
           el._targetProgress = 0;
-          el._hasStartedAnimating = false; // Track if element has started animating
+          el._hasStartedAnimating = false;
           el.style.setProperty("--element-progress", "0.000");
         });
 
-        // Force an initial scroll update to set correct states based on current scroll position
         this.updateScroll();
-        // Also trigger after a small delay to ensure everything is ready
         setTimeout(() => {
           this.updateScroll();
         }, 50);
-        this.physics.startDampingLoop(elements);
       }
     };
 
-    // Check if DOM is already loaded
     if (document.readyState === "loading") {
       window.addEventListener("DOMContentLoaded", initElements);
     } else {
-      // DOM is already loaded, initialize immediately
       initElements();
     }
 
@@ -144,8 +244,6 @@ export class ScrollyMotion {
   }
 
   onScroll(): void {
-    this.physics.onScroll(this.elementManager.getActiveElements());
-
     if (!this.ticking) {
       window.requestAnimationFrame(this.updateScroll);
       this.ticking = true;
@@ -160,41 +258,23 @@ export class ScrollyMotion {
     this.prevScrollY = scrollY;
 
     this.elementManager.getActiveElements().forEach((el) => {
-      const { _enterAt, _distance, _exitAt, _once, _damping } = el;
+      const { _enterAt, _distance, _exitAt, _once } = el;
       const targetProgress = Math.min(
         1,
         Math.max(0, (scrollY - _enterAt) / _distance)
       );
 
-      // Update target progress
       el._targetProgress = targetProgress;
+      el._currentProgress = targetProgress;
 
-      // If no damping, use direct progress
-      let actualProgress = targetProgress;
+      el.style.setProperty("--element-progress", targetProgress.toFixed(3));
 
-      if (_damping > 0) {
-        // Apply damping - smooth interpolation towards target
-        const dampingFactor = 1 - _damping;
-        el._currentProgress =
-          el._currentProgress * dampingFactor + targetProgress * _damping;
-        actualProgress = el._currentProgress;
-      } else {
-        // No damping - use target progress directly
-        el._currentProgress = targetProgress;
-      }
-
-      // Only update if progress has changed significantly (avoid unnecessary updates)
-      const progressDiff = Math.abs(actualProgress - (el._lastProg || 0));
-      if (progressDiff < 0.001 && _damping > 0) return;
-
-      el._lastProg = actualProgress;
-      el.style.setProperty("--element-progress", actualProgress.toFixed(3));
-
-      const hasEntered = actualProgress > 0;
+      const hasEntered = targetProgress > 0;
       const hasExited = scrollY > _exitAt;
       const inView = hasEntered && !hasExited;
 
-      if (el._theme) {
+      // Only handle themes if themes module is loaded
+      if (el._theme && this.hasModule("themes")) {
         this.themeManager.updateElementViewStatus(el, inView);
       }
 
@@ -209,7 +289,6 @@ export class ScrollyMotion {
         if (el._hasEnteredOnce) {
           this.eventManager.emit("elementLeave", el);
         }
-        // Not in view
         if (_once && el._hasEnteredOnce) {
           // If once and has entered, do nothing.
         } else {
@@ -218,37 +297,33 @@ export class ScrollyMotion {
         }
       }
 
-      // Handle animations with the actual (potentially damped) progress
-      if (el._animationConfig) {
-        this.animation.updateAnimation(el, actualProgress);
+      // Only handle web components if webcomponents module is loaded
+      if (this.hasModule("webcomponents")) {
+        el._wcElements.forEach((wcEl) => {
+          const comp = wcEl as ProgressWebComponent;
+          if (typeof comp.progress === "function") {
+            if (comp._lastProgress !== targetProgress) {
+              comp.progress(targetProgress);
+              comp._lastProgress = targetProgress;
+            }
+          }
+          if (typeof comp.enter === "function") {
+            const nowInView = inView;
+            if (comp._lastInView !== nowInView) {
+              if (nowInView && typeof comp.enter === "function") comp.enter();
+              if (!nowInView && typeof comp.leave === "function") comp.leave();
+              comp._lastInView = nowInView;
+            }
+          }
+        });
       }
 
-      // Handle stagger animations
-      if (el._staggerConfig && el._staggerChildren.length > 0) {
-        this.animation.updateStaggerAnimation(el, actualProgress);
-      }
-
-      // update web components only if progress value changes
-      el._wcElements.forEach((wcEl) => {
-        const comp = wcEl as ProgressWebComponent;
-        if (typeof comp.progress === "function") {
-          if (comp._lastProgress !== actualProgress) {
-            comp.progress(actualProgress);
-            comp._lastProgress = actualProgress;
-          }
-        }
-        // Handle enter/leave triggers
-        if (typeof comp.enter === "function") {
-          const nowInView = inView;
-          if (comp._lastInView !== nowInView) {
-            if (nowInView && typeof comp.enter === "function") comp.enter();
-            if (!nowInView && typeof comp.leave === "function") comp.leave();
-            comp._lastInView = nowInView;
-          }
+      // Run modules with the target progress
+      this.modules.forEach((module) => {
+        if (module.updateElement) {
+          module.updateElement(el, targetProgress);
         }
       });
-
-      // We don't filter the elements array anymore, just update properties
     });
 
     this.ticking = false;
@@ -267,7 +342,6 @@ export class ScrollyMotion {
   ): Map<string, TimelineStep[]> {
     const presets = new Map<string, TimelineStep[]>();
 
-    // Only add user-defined custom presets
     Object.entries(customPresets).forEach(([name, steps]) => {
       presets.set(name, steps);
     });
@@ -276,29 +350,42 @@ export class ScrollyMotion {
   }
 
   getMetrics(): ScrollyMotionMetrics {
-    // Calculate FPS based on animation frame timing
-    const { lastScrollTime } = this.physics.getScrollState();
-    const now = performance.now();
-    const fps =
-      lastScrollTime > 0 ? Math.round(1000 / (now - lastScrollTime)) : 60;
-
     const elements = this.elementManager.getElements();
-    // Count active elements (elements with damping or animations)
     const activeElements = elements.filter(
-      (el) => el._damping > 0 || el._animationConfig || el._staggerConfig
+      (el) => el._animationConfig || el._staggerConfig
     ).length;
 
-    // Estimate memory usage (rough calculation)
     const memoryUsage = elements.length * 0.5 + activeElements * 1.2;
-
-    // Check if GPU acceleration is available
     const gpuAccelerated = "transform" in document.createElement("div").style;
 
     return {
-      fps: Math.min(fps, 60), // Cap at 60fps
+      fps: 60,
       activeElements,
       memoryUsage,
       gpuAccelerated,
     };
+  }
+
+  // Public API for getting loaded modules
+  public getModules(): ScrollyMotionModule[] {
+    return [...this.modules];
+  }
+
+  // Public API for checking if a module is loaded
+  public hasModuleLoaded(moduleName: string): boolean {
+    return this.hasModule(moduleName);
+  }
+
+  // ScrollyMotionCore interface methods required by modules
+  public getElements() {
+    return this.elementManager.getElements();
+  }
+
+  public getActiveElements() {
+    return this.elementManager.getActiveElements();
+  }
+
+  public emit(eventName: string, ...args: any[]): void {
+    this.eventManager.emit(eventName, ...args);
   }
 }

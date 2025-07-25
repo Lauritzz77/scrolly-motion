@@ -1,15 +1,18 @@
 # @laubloch/scrolly-motion
 
-**[🚀 Try it out! Live Demo 🚀](https://lauritzz77.github.io/scrolly-motion/)**
-
 [![npm version](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion.svg)](https://badge.fury.io/js/%40laubloch%2Fscrolly-motion)
 
-Performant and advanced scroll animation system with breakpoint support, timeline presets, stagger animations, and physics damping.
+Performant and advanced scroll animation system with **modular architecture**, breakpoint support, timeline presets, and stagger animations.
 
-## **Current Size Estimate**
+**[🚀 Try it out! Live Demo 🚀](https://lauritzz77.github.io/scrolly-motion/)**
 
-- **ES Module**: ~37 KB (minified) / ~9 KB (gzipped)
-- **UMD Module**: ~27 KB (minified) / ~8 KB (gzipped)
+## **Modular Architecture - Load Only What You Need**
+
+ScrollyMotion now features a **modular system** that allows you to import only the features you need, significantly reducing bundle size:
+
+- **Minimal Core**: ~15 KB (just progress tracking and basic animations)
+- **With Timeline**: ~25 KB (adds complex timeline animations)
+- **Full Featured**: ~37 KB (all modules included)
 
 ## Installation
 
@@ -17,16 +20,134 @@ Performant and advanced scroll animation system with breakpoint support, timelin
 npm install @laubloch/scrolly-motion
 ```
 
-## Quick Start
+## Modular Usage Examples
+
+### 🎯 **Minimal Setup** (Smallest Bundle)
+
+Perfect for simple scroll progress tracking and basic up/down detection:
 
 ```typescript
 import { ScrollyMotion } from "@laubloch/scrolly-motion";
 
-// Initialize with default settings
-const scrollyMotion = new ScrollyMotion();
+// Only provides --element-progress CSS variable and basic scroll detection
+const scrolly = new ScrollyMotion();
+```
 
-// Or with custom configuration
-const scrollyMotion = new ScrollyMotion({
+**What you get:**
+
+- ✅ `--element-progress` CSS variable (0-1)
+- ✅ Basic scroll enter/exit detection
+- ✅ Element classes (enterClass/leaveClass)
+- ❌ No timeline animations
+- ❌ No stagger effects
+
+### 🎬 **With Timeline Support**
+
+Add complex timeline animations with keyframes:
+
+```typescript
+import { ScrollyMotion, timeline } from "@laubloch/scrolly-motion";
+
+// Adds timeline animation parsing and execution
+const scrolly = new ScrollyMotion(timeline);
+```
+
+**What you get:**
+
+- ✅ Everything from minimal core
+- ✅ Timeline animations (`from:`, `to:`, `via-50%:`)
+- ✅ Animation presets
+- ✅ Complex keyframe animations
+- ❌ No stagger effects
+
+### 🎭 **With Stagger Effects**
+
+Add staggered animations for child elements:
+
+```typescript
+import { ScrollyMotion, timeline, stagger } from "@laubloch/scrolly-motion";
+
+// Adds stagger animation support
+const scrolly = new ScrollyMotion(timeline, stagger);
+```
+
+**What you get:**
+
+- ✅ Everything from timeline
+- ✅ Stagger animations (`[&>li]:` syntax)
+- ✅ Child element animations with delays
+
+### 🎨 **With Theme Support**
+
+Add dynamic theme switching based on scroll position:
+
+```typescript
+import { ScrollyMotion, timeline, theme } from "@laubloch/scrolly-motion";
+
+// Adds theme switching capabilities
+const scrolly = new ScrollyMotion(timeline, theme);
+```
+
+**What you get:**
+
+- ✅ Everything from timeline
+- ✅ Dynamic theme switching
+- ✅ Body attribute management
+- ❌ No stagger
+
+### 🧩 **With Web Components**
+
+Add support for custom web component integration:
+
+```typescript
+import {
+  ScrollyMotion,
+  timeline,
+  webComponents,
+} from "@laubloch/scrolly-motion";
+
+// Adds web component progress API
+const scrolly = new ScrollyMotion(timeline, webComponents);
+```
+
+**What you get:**
+
+- ✅ Everything from timeline
+- ✅ Web component `progress()` method calls
+- ✅ Custom element integration
+- ❌ No stagger
+
+### 🚀 **Full Featured Setup**
+
+Include all modules for maximum functionality:
+
+```typescript
+import {
+  ScrollyMotion,
+  timeline,
+  stagger,
+  themes,
+  webcomponents,
+} from "@laubloch/scrolly-motion";
+
+// Full-featured ScrollyMotion with all capabilities
+const scrolly = new ScrollyMotion(timeline, stagger, themes, webcomponents);
+```
+
+**What you get:**
+
+- ✅ All features enabled
+- ✅ Maximum flexibility
+- ✅ Complete animation system
+
+## Legacy Configuration Support
+
+The traditional configuration object is still fully supported:
+
+```typescript
+import { ScrollyMotion, timeline } from "@laubloch/scrolly-motion";
+
+const scrolly = new ScrollyMotion(timeline, {
   selector: "[data-scroll], [data-animation]",
   defaultEnter: "50vh",
   breakpoints: {
@@ -43,21 +164,78 @@ const scrollyMotion = new ScrollyMotion({
 });
 ```
 
-## Basic Usage
+## Basic Usage Examples
 
-### Simple Animations
+### Simple Progress Tracking (Minimal Core)
 
 ```html
-<!-- Fade in from bottom -->
-<div data-animation="from:opacity-0|translateY-50 to:opacity-100|translateY-0">
-  Content
+<!-- Works with minimal core -->
+<div data-scroll="enter: 50vh;">
+  <div
+    class="progress-bar"
+    style="transform: scaleX(var(--element-progress))"
+  ></div>
 </div>
-
-<!-- Scale and rotate -->
-<div data-animation="from:scale-0|rotate-45; to:scale-1|rotate-0">Content</div>
 ```
 
-### Breakpoint Animations
+### Timeline Animations (Requires Timeline Module)
+
+```html
+<!-- Requires timeline module -->
+<div data-animation="from:opacity-0|translateY-50 to:opacity-100|translateY-0">
+  Fade in from bottom
+</div>
+
+<!-- Complex timeline -->
+<div data-animation="timeline:from:scale-0; via-50%:scale-1.2; to:scale-1">
+  Bounce scale effect
+</div>
+```
+
+### Stagger Animations (Requires Stagger Module)
+
+```html
+<!-- Requires stagger module -->
+<div
+  data-animation="[&>li]:from:opacity-0|translateY-20; to:opacity-100|translateY-0|stagger-0.1;"
+>
+  <ul>
+    <li>Item 1 (animates first)</li>
+    <li>Item 2 (animates 0.1s later)</li>
+    <li>Item 3 (animates 0.2s later)</li>
+  </ul>
+</div>
+```
+
+### Theme Switching (Requires Theme Module)
+
+```html
+<!-- Requires theme module -->
+<div data-scroll="theme: dark;">
+  When this element is in view, body gets data-theme="dark"
+</div>
+```
+
+### Web Component Integration (Requires WebComponents Module)
+
+```html
+<!-- Requires webComponents module -->
+<div data-scroll="wc:my-progress-card;">
+  <my-progress-card></my-progress-card>
+</div>
+```
+
+```javascript
+// Your web component
+class MyProgressCard extends HTMLElement {
+  progress(value) {
+    // Called automatically with scroll progress (0-1)
+    this.style.setProperty("--progress", value);
+  }
+}
+```
+
+## Breakpoint Animations
 
 ```html
 <!-- Different animations for different screen sizes -->
@@ -68,51 +246,6 @@ const scrollyMotion = new ScrollyMotion({
 "
 >
   Mobile: slides up, Desktop: slides from right
-</div>
-```
-
-### Preset Animations
-
-```html
-<!-- Use predefined animation presets -->
-<div data-animation="preset:fadeInUp">Uses fadeInUp preset animation</div>
-```
-
-### Stagger Animations
-
-```html
-<!-- Animate children with stagger delay -->
-<div
-  data-animation="[&>li]:from:opacity-0|translateY-20; to:opacity-100|translateY-0|stagger-0.1;"
->
-  <ul>
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-  </ul>
-</div>
-```
-
-```html
-<!-- Animate mix children with stagger delay -->
-<div
-  data-animation="[&>p,span,div]:from:opacity-0|translateY-20; to:opacity-100|translateY-0|stagger-0.1;"
->
-  <p>Item 1</p>
-  <span>Item 2</span>
-  <div>Item 3</div>
-</div>
-```
-
-### Physics Damping
-
-```html
-<!-- Smooth, physics-based animation -->
-<div
-  data-scroll="damping:0.1; friction:0.95"
-  data-animation="from:opacity-0|translateY-50; to:opacity-100|translateY-0"
->
-  Smooth physics animation
 </div>
 ```
 
@@ -143,11 +276,6 @@ const scrollyMotion = new ScrollyMotion({
   <!-- translateY: 48px to 0px -->
 </div>
 
-<!-- Tailwind spacing: number * 4px negative -->
-<div data-animation="from:translateY--12; to:translateY-0;">
-  <!-- translateY: -48px to 0px -->
-</div>
-
 <!-- Tailwind opacity: number * 0.01 -->
 <div data-animation="from:opacity-50; to:opacity-100;">
   <!-- opacity: 0.5 to 1.0 -->
@@ -156,14 +284,10 @@ const scrollyMotion = new ScrollyMotion({
 
 #### Arbitrary Values
 
-When adding Arbitrary Values always use same units
-
 ```html
 <!-- Custom values with units -->
-<div
-  data-animation="from:translateY-[100px]; via-50%:translateY-[-100px]; to:translateY-[0px];"
->
-  Custom pixel values and timeline
+<div data-animation="from:translateY-[100px]; to:translateY-[0px];">
+  Custom pixel values
 </div>
 
 <div data-animation="from:translateY-[50vh]; to:translateY-[0vh];">
@@ -172,17 +296,6 @@ When adding Arbitrary Values always use same units
 ```
 
 ## Configuration Options
-
-### ScrollyMotion Constructor
-
-```typescript
-interface ScrollAnimatorConfig {
-  selector?: string; // Element selector
-  defaultEnter?: string; // Default enter offset
-  breakpoints?: Record<string, string>; // Media queries
-  presets?: Record<string, TimelineStep[]>; // Animation presets
-}
-```
 
 ### Element Configuration (data-scroll)
 
@@ -193,42 +306,12 @@ interface ScrollAnimatorConfig {
   exit: 0vh;          <!-- Exit offset -->
   distance: 200px;    <!-- Animation distance -->
   once: true;         <!-- Animate only once -->
-  damping: 0.1;       <!-- Physics damping (0-1) -->
-  friction: 0.95;     <!-- Physics friction (0-1) -->
-  enterClass: fade-in;     <!-- Enter class will be removed if once: false-->
-  leaveClass: fade-out; <!-- Leave class -->
-  theme: dark;        <!-- Body theme attribute -->
+  enterClass: fade-in;     <!-- Enter class -->
+  leaveClass: fade-out;    <!-- Leave class -->
+  theme: dark;        <!-- Body theme (requires theme module) -->
+  wc: my-component;   <!-- Web component selector (requires webComponents module) -->
 "
 ></div>
-```
-
-#### Enter Behavior Explained
-
-The `enter` parameter controls when an element triggers its enter state (applies `enterClass` and removes `leaveClass`):
-
-- `enter: 0vh` - Element enters when its **top** reaches the **bottom** of the viewport
-- `exit: 25vh` - Element enters when its **top** is 25vh from the **bottom** of the viewport
-- `exit: 50vh` - Element enters when its **top** is 50vh from the **bottom** of the viewport
-- `exit: 100vh` - Element enters when its **top** is 100vh reaches the **top** of the viewport
-
-#### Exit Behavior Explained
-
-The `exit` parameter controls when an element triggers its exit state (applies `leaveClass` and removes `enterClass`):
-
-- `exit: 0vh` - Element exits when its **bottom** reaches the **top** of the viewport
-- `exit: 25vh` - Element exits when its **bottom** is 25vh from the **top** of the viewport
-- `exit: 50vh` - Element exits when its **bottom** is 50vh from the **top** of the viewport
-- `exit: 100vh` - Element exits when its **bottom** reaches the **bottom** of the viewport
-
-```html
-<!-- Examples of different exit behaviors -->
-<div data-scroll="exit: 0vh; enterClass: active; leaveClass: inactive;">
-  Exits immediately when bottom leaves top of viewport
-</div>
-
-<div data-scroll="exit: 100vh; enterClass: active; leaveClass: inactive;">
-  Exits when bottom reaches bottom of viewport (stays active longer)
-</div>
 ```
 
 ## Advanced Features
@@ -236,7 +319,9 @@ The `exit` parameter controls when an element triggers its exit state (applies `
 ### Custom Timeline Presets
 
 ```typescript
-const ScrollyMotion = new ScrollyMotion({
+import { ScrollyMotion, timeline } from "@laubloch/scrolly-motion";
+
+const scrolly = new ScrollyMotion(timeline, {
   presets: {
     bounceIn: [
       { at: 0, properties: { opacity: 0, scale: 0.3 } },
@@ -262,111 +347,99 @@ const ScrollyMotion = new ScrollyMotion({
 
 ```typescript
 // Get performance metrics
-const metrics = ScrollyMotion.getMetrics();
+const metrics = scrolly.getMetrics();
 console.log("FPS:", metrics.fps);
 console.log("Active elements:", metrics.activeElements);
 console.log("Memory usage:", metrics.memoryUsage, "MB");
-console.log("GPU accelerated:", metrics.gpuAccelerated);
 ```
-
-## Web Component Usage
-
-ScrollyMotion can animate and interact with custom Web Components. To enable this, simply use your Web Component in the DOM and target it with `data-scroll` or `data-animation` attributes.
-
-```html
-<!-- Example: Parent div with data-scroll and wc:my-animated-card -->
-<div data-scroll="enter: 50vh; distance: 50vh; wc:my-animated-card;">
-  <my-animated-card>Card Content</my-animated-card>
-</div>
-```
-
-### Progress API for Web Components
-
-If your Web Component exposes a `progress` method, ScrollyMotion will automatically call it with the current scroll progress (0–1):
-
-```js
-class MyAnimatedCard extends HTMLElement {
-  progress(value) {
-    // Use value (0–1) to update animation state
-    this.style.setProperty("--scroll-progress", value.toString());
-    this.style.opacity = value.toString();
-    this.style.transform = `scale(${0.8 + 0.2 * value})`;
-    // You can add more custom animation logic here
-  }
-}
-customElements.define("my-animated-card", MyAnimatedCard);
-```
-
-This allows you to create custom, scroll-driven animations inside your Web Components, fully integrated with ScrollyMotion ’s animation system.
-
-## Browser Support
-
-- Chrome 51+
-- Firefox 55+
-- Safari 12.1+
-- Edge 79
 
 ## Event System
 
-ScrollyMotion fires events at key lifecycle moments, allowing you to hook into the animation process.
-
-- `elementEnter`: Fired when an element enters the viewport.
-- `elementLeave`: Fired when an element leaves the viewport.
-
-**Usage:**
-
 ```typescript
-const scrollyMotion = new ScrollyMotion();
-
-scrollyMotion.on("elementEnter", (element) => {
+scrolly.on("elementEnter", (element) => {
   console.log("Element entered:", element);
 });
 
-scrollyMotion.on("elementLeave", (element) => {
+scrolly.on("elementLeave", (element) => {
   console.log("Element left:", element);
 });
 ```
 
 ## Plugin System
 
-ScrollyMotion has a plugin system that allows you to extend the library with custom animation properties and behaviors.
-
-**Example Plugin: Custom Bounce Effect**
-
-This example demonstrates how to create a plugin that adds a custom `bounceY` animation property.
-
-**1. Create the Plugin**
+ScrollyMotion has a plugin system for custom animation properties:
 
 ```typescript
 const bouncePlugin = {
   name: "bounceEffects",
   parse: (property, value) => {
     if (property === "bounceY") {
-      // Convert bounce intensity to actual translateY values
       const intensity = parseFloat(value) || 10;
-      return intensity; // This will be used by the animation system
+      return intensity;
     }
     return undefined;
   },
 };
+
+// Register the plugin
+scrolly.registerPlugin(bouncePlugin);
 ```
-
-**2. Register the Plugin**
-
-```typescript
-// Initialize ScrollyMotion
-const scrollyMotion = new ScrollyMotion();
-
-// Register the custom plugin
-scrollyMotion.registerPlugin(bouncePlugin);
-```
-
-**3. Use the Custom Property in HTML**
-
-Now you can use the `bounceY` property in your `data-animation` attributes.
 
 ```html
+<!-- Use custom property -->
 <div data-animation="from:bounceY-20|opacity-0 to:bounceY-0|opacity-100">
-  This element will bounce in from 20px above.
+  Custom bounce animation
 </div>
+```
+
+## Migration Guide
+
+### From v1.0.x to Modular System
+
+**Old way (still works):**
+
+```typescript
+import { ScrollyMotion } from "@laubloch/scrolly-motion";
+const scrolly = new ScrollyMotion(); // Gets all features
+```
+
+**New modular way:**
+
+```typescript
+import { ScrollyMotion, timeline, stagger } from "@laubloch/scrolly-motion";
+const scrolly = new ScrollyMotion(timeline, stagger); // Only what you need
+```
+
+## Bundle Size Comparison
+
+| Setup           | Size (minified) | Size (gzipped) | Features                                  |
+| --------------- | --------------- | -------------- | ----------------------------------------- |
+| Minimal Core    | ~15 KB          | ~5 KB          | Progress tracking, basic scroll detection |
+| + Timeline      | ~25 KB          | ~7 KB          | + Complex animations, presets             |
+| + Stagger       | ~28 KB          | ~8 KB          | + Child element animations                |
+| + Theme         | ~30 KB          | ~8.5 KB        | + Dynamic theme switching                 |
+| + WebComponents | ~32 KB          | ~9 KB          | + Web component integration               |
+| Full Featured   | ~35 KB          | ~9.5 KB        | All features                              |
+
+## Browser Support
+
+- Chrome 51+
+- Firefox 55+
+- Safari 12.1+
+- Edge 79+
+
+## TypeScript Support
+
+Full TypeScript support with proper module typing:
+
+```typescript
+import {
+  ScrollyMotion,
+  timeline,
+  stagger,
+  themes,
+  webcomponents,
+  type ScrollAnimatorConfig,
+  type TimelineStep,
+} from "@laubloch/scrolly-motion";
 ```

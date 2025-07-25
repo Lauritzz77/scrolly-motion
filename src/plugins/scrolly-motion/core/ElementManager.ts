@@ -239,14 +239,9 @@ export class ElementManager {
       );
     }
 
-    // parse damping and friction
-    el._damping = cfg.damping;
-    el._friction = cfg.friction;
+    // initialize progress tracking
     el._targetProgress = 0;
     el._currentProgress = 0;
-    el._velocity = 0;
-    el._lastTargetProgress = 0;
-    el._isScrolling = false;
 
     // parse animation config
     const animationStr = el.getAttribute("data-animation");

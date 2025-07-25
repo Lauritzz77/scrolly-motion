@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import { ValueParser } from "./ValueParser";
-import { PluginManager } from "../PluginManager";
+import { ValueParser } from "../core/parsers/ValueParser";
+import { PluginManager } from "../core/PluginManager";
 
 describe("ValueParser", () => {
   const pluginManager = new PluginManager();

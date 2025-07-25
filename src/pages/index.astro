@@ -857,3 +857,117 @@ import Layout from "@/layouts/Layout.astro";
   }
   customElements.define("my-trigger-card", MyTriggerCard);
 </script>
+<script>
+  import {
+    ScrollyMotion,
+    stagger,
+    timeline,
+    webcomponents,
+    themes,
+  } from "@/plugins/scrolly-motion/index.ts";
+
+  new ScrollyMotion(stagger, timeline, webcomponents, themes, {
+    selector: "[data-scroll], [data-animation]",
+    defaultEnter: "20vh", // Start animations earlier
+    presets: {
+      // Responsive fade-in preset with different animations per breakpoint
+      fadeInUp: [
+        { at: 0, properties: { opacity: 0, translateY: -50, scale: 0.8 } },
+        {
+          at: 0.5,
+          properties: { opacity: 0.7, translateY: -10, scale: 0.95 },
+        },
+        { at: 1, properties: { opacity: 1, translateY: 0, scale: 1 } },
+      ],
+      // Mobile-optimized bounce preset
+      mobileBounce: [
+        { at: 0, properties: { opacity: 0, translateY: -30, scale: 0.9 } },
+        { at: 0.6, properties: { opacity: 1, translateY: 5, scale: 1.05 } },
+        { at: 1, properties: { opacity: 1, translateY: 0, scale: 1 } },
+      ],
+      // Desktop complex animation preset
+      desktopComplex: [
+        {
+          at: 0,
+          properties: {
+            opacity: 0,
+            translateY: -100,
+            rotate: -45,
+            scale: 0.5,
+          },
+        },
+        {
+          at: 0.3,
+          properties: {
+            opacity: 0.5,
+            translateY: -20,
+            rotate: -15,
+            scale: 0.8,
+          },
+        },
+        {
+          at: 0.7,
+          properties: { opacity: 0.9, translateY: 10, rotate: 5, scale: 1.1 },
+        },
+        {
+          at: 1,
+          properties: { opacity: 1, translateY: 0, rotate: 0, scale: 1 },
+        },
+      ],
+      customBounce: [
+        { at: 0, properties: { opacity: 0, scale: 0, rotate: -45 } },
+        { at: 0.4, properties: { opacity: 0.8, scale: 1.3, rotate: 10 } },
+        { at: 0.7, properties: { opacity: 1, scale: 0.9, rotate: -5 } },
+        { at: 1, properties: { opacity: 1, scale: 1, rotate: 0 } },
+      ],
+
+      // Custom slide and flip
+      slideFlip: [
+        {
+          at: 0,
+          properties: { opacity: 0, translateX: -100, rotateY: 90 },
+        },
+        {
+          at: 0.6,
+          properties: { opacity: 0.7, translateX: 20, rotateY: -10 },
+        },
+        { at: 1, properties: { opacity: 1, translateX: 0, rotateY: 0 } },
+      ],
+
+      // Custom wave effect
+      waveEffect: [
+        { at: 0, properties: { opacity: 0, translateY: 25, scale: 0.8 } },
+        {
+          at: 0.3,
+          properties: { opacity: 0.5, translateY: "[-300vh]", scale: 1.1 },
+        },
+        {
+          at: 0.6,
+          properties: { opacity: 0.8, translateY: 10, scale: 0.95 },
+        },
+        { at: 1, properties: { opacity: 1, translateY: 0, scale: 1 } },
+      ],
+      typewriter: [
+        { at: 0, properties: { opacity: 0, scaleX: 0 } },
+        { at: 0.1, properties: { opacity: 1, scaleX: 0.1 } },
+        { at: 0.3, properties: { scaleX: 0.4 } },
+        { at: 0.6, properties: { scaleX: 0.8 } },
+        { at: 1, properties: { scaleX: 1 } },
+      ],
+      responsiveFadeIn: [
+        {
+          at: 0,
+          properties: { opacity: 0, translateY: -50, scale: 0.8 },
+        },
+        {
+          at: 0.5,
+          properties: { opacity: 0.7, translateY: -10, scale: 1.1 },
+        },
+        {
+          at: 1,
+          properties: { opacity: 1, translateY: 0, scale: 1 },
+        },
+      ],
+    },
+  });
+</script>
