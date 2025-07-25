@@ -15,11 +15,11 @@ import {
   DEFAULT_ELEMENT_CONFIG,
   BREAKPOINT_ORDER,
 } from "../utils/constants.js";
-import { parseSize, parseClasses } from "../utils/helpers.js";
-import { generateTransition } from "../utils/get-transition.js";
-import type { Parser } from "./Parser.js";
-import type { Animation } from "./Animation.js";
-import type { ThemeManager } from "./ThemeManager.js";
+import { parseSize, parseClasses } from "../utils/helpers";
+import { generateTransition } from "../utils/get-transition";
+import type { Parser } from "./Parser";
+import type { Animation } from "./Animation";
+import type { ThemeManager } from "./ThemeManager";
 
 export class ElementManager {
   private elements: Map<HTMLElement, ScrollElement>;
@@ -83,8 +83,86 @@ export class ElementManager {
     const vh = window.innerHeight;
     this.elements.forEach((el) => {
       this._parseElementConfig(el, vh);
-      this._applyInitialStyles(el);
+      this._setupAnimationConfig(el);
     });
+  }
+
+  private _applyInitialVisualState(el: ScrollElement): void {
+    // Apply initial visual state for regular animations
+    if (el._animationConfig) {
+      let initialValues: Record<string, any> = {};
+
+      // If timeline exists, use the first step (at: 0) as initial values
+      if (
+        el._animationConfig.timeline &&
+        el._animationConfig.timeline.length > 0
+      ) {
+        const firstStep = el._animationConfig.timeline[0];
+        if (firstStep.at === 0) {
+          initialValues = firstStep.properties;
+        }
+      }
+      // Otherwise use from values if they exist
+      else if (
+        el._animationConfig.from &&
+        Object.keys(el._animationConfig.from).length > 0
+      ) {
+        initialValues = el._animationConfig.from;
+      }
+
+      // Apply the initial values
+      if (Object.keys(initialValues).length > 0) {
+        this.animation.applyAnimationValues(el, initialValues);
+        // Set progress to 0
+        el.style.setProperty("--element-progress", "0.000");
+      }
+    }
+
+    // Apply initial visual state for stagger animations
+    if (el._staggerConfig) {
+      let initialValues: Record<string, any> = {};
+
+      // If timeline exists, use the first step (at: 0) as initial values
+      if (el._staggerConfig.timeline && el._staggerConfig.timeline.length > 0) {
+        const firstStep = el._staggerConfig.timeline[0];
+        if (firstStep.at === 0) {
+          initialValues = firstStep.properties;
+        }
+      }
+      // Otherwise use from values if they exist
+      else if (
+        el._staggerConfig.from &&
+        Object.keys(el._staggerConfig.from).length > 0
+      ) {
+        initialValues = el._staggerConfig.from;
+      }
+
+      // Apply the initial values to stagger children
+      if (Object.keys(initialValues).length > 0) {
+        let children: HTMLElement[] = [];
+
+        // Handle different selector formats
+        if (el._staggerConfig.selector.startsWith(">")) {
+          // Direct child selector like ">h1"
+          const childSelector = el._staggerConfig.selector.substring(1);
+          children = Array.from(el.children).filter((child) =>
+            child.matches(childSelector)
+          ) as HTMLElement[];
+        } else {
+          // Regular selector
+          children = Array.from(
+            el.querySelectorAll(el._staggerConfig.selector)
+          ) as HTMLElement[];
+        }
+
+        // Apply initial state to all stagger children
+        children.forEach((child) => {
+          this.animation.applyAnimationValues(child, initialValues);
+        });
+        // Set progress to 0
+        el.style.setProperty("--element-progress", "0.000");
+      }
+    }
   }
 
   private _parseElementConfig(el: ScrollElement, vh: number): void {
@@ -194,10 +272,13 @@ export class ElementManager {
     }
     el._animeInstance = null;
     el._staggerChildren = [];
+
+    // Apply initial visual state after animation config is parsed
+    this._applyInitialVisualState(el);
   }
 
-  private _applyInitialStyles(el: ScrollElement): void {
-    // Find stagger children if stagger config exists
+  private _setupAnimationConfig(el: ScrollElement): void {
+    // Setup stagger children and transitions if stagger config exists
     if (el._staggerConfig) {
       const staggerConfig = el._staggerConfig;
       if (!el._staggerChildren || el._staggerChildren.length === 0) {
@@ -219,10 +300,8 @@ export class ElementManager {
 
         el._staggerChildren = children;
 
-        // Apply initial state to all stagger children
+        // Apply transition styles to all stagger children (visual state already applied in _applyInitialVisualState)
         children.forEach((child) => {
-          this.animation.applyAnimationValues(child, staggerConfig.from);
-
           // Apply transition style
           const transition = generateTransition(
             staggerConfig,
@@ -236,10 +315,9 @@ export class ElementManager {
       }
     }
 
-    // Apply initial animation state for regular animations
+    // Setup transition styles for regular animations (visual state already applied in _applyInitialVisualState)
     if (el._animationConfig) {
       const config = el._animationConfig!;
-      this.animation.applyAnimationValues(el, config.from);
 
       // Apply transition style
       const transition = generateTransition(

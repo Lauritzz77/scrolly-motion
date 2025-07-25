@@ -3,9 +3,9 @@
  * Handles damping, physics calculations, and smooth scroll animations
  */
 
-import type { ScrollElement } from "../types/index.js";
-import { PHYSICS_CONFIG } from "../utils/constants.js";
-import { Animation } from "./Animation.js";
+import type { ScrollElement } from "../types/index";
+import { PHYSICS_CONFIG } from "../utils/constants";
+import { Animation } from "./Animation";
 
 export class Physics {
   private animation: Animation;

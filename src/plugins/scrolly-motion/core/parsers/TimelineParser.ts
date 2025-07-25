@@ -3,7 +3,7 @@
  * Handles parsing of timeline animations.
  */
 
-import type { TimelineStep } from "../../types/index.js";
+import type { TimelineStep } from "../../types";
 import { ValueParser } from "./ValueParser";
 
 export class TimelineParser {

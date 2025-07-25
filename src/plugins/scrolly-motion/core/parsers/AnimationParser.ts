@@ -7,11 +7,11 @@ import type {
   AnimationConfig,
   BreakpointAnimationConfig,
   TimelineStep,
-} from "../../types/index.js";
-import { BREAKPOINT_ORDER } from "../../utils/constants.js";
+} from "../../types";
+import { BREAKPOINT_ORDER } from "../../utils/constants";
 import { TimelineParser } from "./TimelineParser";
 import { ValueParser } from "./ValueParser";
-import type { PluginManager } from "../PluginManager.js";
+import type { PluginManager } from "../PluginManager";
 
 export class AnimationParser {
   private timelinePresets: Map<string, TimelineStep[]>;

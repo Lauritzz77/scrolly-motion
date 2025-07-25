@@ -3,7 +3,7 @@
  * Handles parsing of individual animation values.
  */
 
-import type { PluginManager } from "../PluginManager.js";
+import type { PluginManager } from "../PluginManager";
 
 export class ValueParser {
   private pluginManager: PluginManager;

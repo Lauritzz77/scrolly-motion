@@ -9,7 +9,7 @@ import type {
 } from "../../types/index.js";
 import { TimelineParser } from "./TimelineParser";
 import { ValueParser } from "./ValueParser";
-import type { PluginManager } from "../PluginManager.js";
+import type { PluginManager } from "../PluginManager";
 
 export class StaggerParser {
   private timelineParser: TimelineParser;

@@ -39,7 +39,6 @@ const columns = "24";
 <script>
   import { ScrollyMotion } from "@/plugins/scrolly-motion/index.ts";
 
-  // Initialize ScrollMaster with custom settings
   new ScrollyMotion({
     selector: "[data-scroll], [data-animation]",
     defaultEnter: "20vh", // Start animations earlier
@@ -101,7 +100,10 @@ const columns = "24";
           at: 0,
           properties: { opacity: 0, translateX: -100, rotateY: 90 },
         },
-        { at: 0.6, properties: { opacity: 0.7, translateX: 20, rotateY: -10 } },
+        {
+          at: 0.6,
+          properties: { opacity: 0.7, translateX: 20, rotateY: -10 },
+        },
         { at: 1, properties: { opacity: 1, translateX: 0, rotateY: 0 } },
       ],
 
@@ -112,7 +114,10 @@ const columns = "24";
           at: 0.3,
           properties: { opacity: 0.5, translateY: "[-300vh]", scale: 1.1 },
         },
-        { at: 0.6, properties: { opacity: 0.8, translateY: 10, scale: 0.95 } },
+        {
+          at: 0.6,
+          properties: { opacity: 0.8, translateY: 10, scale: 0.95 },
+        },
         { at: 1, properties: { opacity: 1, translateY: 0, scale: 1 } },
       ],
       typewriter: [
@@ -138,9 +143,4 @@ const columns = "24";
       ],
     },
   });
-  // const metrics = scrollMaster.getMetrics();
-  // console.log("FPS:", metrics.fps);
-  // console.log("Active elements:", metrics.activeElements);
-  // console.log("Memory usage:", metrics.memoryUsage, "MB");
-  // console.log("GPU accelerated:", metrics.gpuAccelerated);
 </script>

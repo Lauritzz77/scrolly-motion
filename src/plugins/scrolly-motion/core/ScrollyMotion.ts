@@ -7,18 +7,18 @@ import type {
   ScrollAnimatorConfig,
   ScrollyMotionMetrics,
   TimelineStep,
-} from "../types/index.js";
-import { DEFAULT_CONFIG } from "../utils/constants.js";
-import { debounce, initializeMediaQueries } from "../utils/helpers.js";
-import { validateConfig } from "../utils/validation.js";
-import { Parser } from "./Parser.js";
-import { Animation } from "./Animation.js";
-import { Physics } from "./Physics.js";
-import { ThemeManager } from "./ThemeManager.js";
-import { ElementManager } from "./ElementManager.js";
-import { EventManager } from "./EventManager.js";
-import { PluginManager } from "./PluginManager.js";
-import type { ScrollyMotionPlugin } from "./PluginManager.js";
+} from "../types";
+import { DEFAULT_CONFIG } from "../utils/constants";
+import { debounce, initializeMediaQueries } from "../utils/helpers";
+import { validateConfig } from "../utils/validation";
+import { Parser } from "./Parser";
+import { Animation } from "./Animation";
+import { Physics } from "./Physics";
+import { ThemeManager } from "./ThemeManager";
+import { ElementManager } from "./ElementManager";
+import { EventManager } from "./EventManager";
+import { PluginManager } from "./PluginManager";
+import type { ScrollyMotionPlugin } from "./PluginManager";
 
 interface ProgressWebComponent extends HTMLElement {
   progress: (value: number) => void;
@@ -107,15 +107,27 @@ export class ScrollyMotion {
   init(): void {
     const initElements = () => {
       this.elementManager.discoverElements();
-      if (this.elementManager.getElements().length > 0) {
+      const elements = this.elementManager.getElements();
+
+      if (elements.length > 0) {
         this.elementManager.measureElements();
-        // Force an initial scroll update to set initial states
+
+        // Initialize all elements with progress = 0 to ensure they start in their initial state
+        // The initial visual state is already applied in ElementManager._applyInitialVisualState
+        elements.forEach((el) => {
+          el._currentProgress = 0;
+          el._targetProgress = 0;
+          el._hasStartedAnimating = false; // Track if element has started animating
+          el.style.setProperty("--element-progress", "0.000");
+        });
+
+        // Force an initial scroll update to set correct states based on current scroll position
         this.updateScroll();
         // Also trigger after a small delay to ensure everything is ready
         setTimeout(() => {
           this.updateScroll();
         }, 50);
-        this.physics.startDampingLoop(this.elementManager.getElements());
+        this.physics.startDampingLoop(elements);
       }
     };
 

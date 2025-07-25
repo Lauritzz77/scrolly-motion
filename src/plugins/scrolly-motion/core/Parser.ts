@@ -9,9 +9,9 @@ import type {
   MultiBreakpointStaggerConfig,
   TimelineStep,
 } from "../types/index.js";
-import { AnimationParser } from "./parsers/AnimationParser.js";
-import { StaggerParser } from "./parsers/StaggerParser.js";
-import type { PluginManager } from "./PluginManager.js";
+import { AnimationParser } from "./parsers/AnimationParser";
+import { StaggerParser } from "./parsers/StaggerParser";
+import type { PluginManager } from "./PluginManager";
 
 export class Parser {
   private animationParser: AnimationParser;

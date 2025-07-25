@@ -1,6 +1,6 @@
 {
   "name": "@laubloch/scrolly-motion",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Advanced scroll animation library with breakpoint support, timeline presets, and physics damping",
   "author": "@laubloch",
   "license": "MIT",

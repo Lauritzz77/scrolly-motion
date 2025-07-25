@@ -72,6 +72,7 @@ export interface ScrollElement extends HTMLElement {
   _multiStaggerConfig: MultiBreakpointStaggerConfig | null;
   _staggerChildren: HTMLElement[];
   _hasEnteredOnce: boolean;
+  _hasStartedAnimating: boolean;
 }
 
 export type DebouncedFunction<T extends (...args: any[]) => void> = (
